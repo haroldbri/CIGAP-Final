@@ -1,0 +1,119 @@
+{% load static %}
+<style>
+  .btn_fechas {
+    padding: 0;
+    position: fixed;
+    top: 50%;
+    z-index: 101;
+    transform: translateY(calc(-70%));
+    min-width: 70px;
+    min-height: 70px;
+    box-shadow: 0 0 8px 0px #a4a4a4;
+    border: 1px solid #caca;
+    background: #ffffff;
+    border-radius: 0 50% 50% 0;
+    transition: all 0.2s;
+  }
+  .btn_fechas:hover {
+    border: 1px solid #cacaca;
+    background: #f3f3f3;
+    transition: all 0.2s;
+    scale: 1.05;
+    transform: translateY(calc(-70%));
+  }
+  .imagen_fechas {
+    animation: 1s animacion_imagen infinite;
+  }
+  @keyframes animacion_imagen {
+    0% {
+      transform: rotate(0deg);
+      top: 0px;
+    }
+    50% {
+      transform: rotate(-10deg);
+      top: -5px;
+    }
+    100% {
+      transform: rotate(0deg);
+      top: 0px;
+    }
+  }
+</style>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn_fechas" data-bs-toggle="modal" data-bs-target="#exampleModal"><img class="imagen_fechas" src="{% static 'icons/image_pendiente.png' %}" alt="" /></button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-white tittles_h3">
+        <h5 class="modal-title tittles_h3" id="exampleModalLabel"><i class="bi bi-calendar-check"></i> <strong>Recordatorio de Entrega</strong></h5>
+        <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          <strong>Estimados estudiantes y directores,</strong>
+        </p>
+        <p>Les recordamos que las fechas límite para las entregas son las siguientes:</p>
+
+        <div class="content_fechas d-flex flex-column align-items-center p-3 border rounded">
+          <p class="text-center mb-3 text-muted">
+            <em>Las fechas programadas para los encuentros del comité son las siguientes. A continuación, se especifica cada encuentro y su fecha correspondiente.</em>
+          </p>
+
+          {% if fechas_comite.primer_encuentro %}
+            <div class="div_content_fechas d-flex justify-content-start align-items-center m-2 p-2 border-bottom">
+              <i class="fas fa-calendar-day text-primary me-2"></i>
+              <p class="p-0 m-0">
+                <small><strong>Primer Encuentro:</strong> <span class="text-primary ms-2">{{ fechas_comite.primer_encuentro }}</span></small>
+              </p>
+            </div>
+          {% endif %}
+
+          {% if fechas_comite.segundo_encuentro %}
+            <div class="div_content_fechas d-flex justify-content-start align-items-center m-2 p-2 border-bottom">
+              <i class="fas fa-calendar-day text-success me-2"></i>
+              <p class="p-0 m-0">
+                <small><strong>Segundo Encuentro:</strong> <span class="text-success ms-2">{{ fechas_comite.segundo_encuentro }}</span></small>
+              </p>
+            </div>
+          {% endif %}
+
+          {% if fechas_comite.tercer_encuentro %}
+            <div class="div_content_fechas d-flex justify-content-start align-items-center m-2 p-2 border-bottom">
+              <i class="fas fa-calendar-day text-warning me-2"></i>
+              <p class="p-0 m-0">
+                <small><strong>Tercer Encuentro:</strong> <span class="text-warning ms-2">{{ fechas_comite.tercer_encuentro }}</span></small>
+              </p>
+            </div>
+          {% endif %}
+
+          {% if fechas_comite.cuarto_encuentro %}
+            <div class="div_content_fechas d-flex justify-content-start align-items-center m-2 p-2 border-bottom">
+              <i class="fas fa-calendar-day text-danger me-2"></i>
+              <p class="p-0 m-0">
+                <small><strong>Cuarto Encuentro:</strong> <span class="text-danger ms-2">{{ fechas_comite.cuarto_encuentro }}</span></small>
+              </p>
+            </div>
+          {% endif %}
+
+          {% if fechas_comite.extraordinaria %}
+            <div class="div_content_fechas d-flex justify-content-start align-items-center m-2 p-2">
+              <i class="fas fa-calendar-exclamation text-info me-2"></i>
+              <p class="p-0 m-0">
+                <small><strong>Encuentro Extraordinario:</strong> <span class="text-info ms-2">{{ fechas_comite.extraordinaria }}</span></small>
+              </p>
+            </div>
+          {% endif %}
+        </div>
+
+        <p class="mt-3">
+          <strong>Por favor, asegúrense de cumplir con los plazos establecidos para evitar inconvenientes.</strong>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btns-cancelar-cerrar" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+ /* #liveToast, strong, small {
+    color: #fff;
+ }
+
+
+
+ #liveToast {
+    background: var(--colores_institucionalesfondo1);
+ }
+
+ .toast {
+    background: transparent;
+ }
+
+ div #toast-text {
+    background: #ffffff;
+    color: var(--colores_institucionalesTextoNegrilla);
+ }
+
+ .toast-body {
+    background: #fff;
+ }
+
+ .toast-header {
+    color: #fff !important;
+    background: var(--colores_institucionalesfondo1);
+ }
+
+ .text-muted {
+    color: #fff !important;
+ }
+
+ .btn-close {
+    color: #fff !important;
+ } */

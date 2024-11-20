@@ -1,0 +1,270 @@
+{% extends 'correspondencia/base_correspondencia.html' %}
+{% block carga_trabajo %}
+  <style>
+    .views {
+      display: flex;
+    }
+    .content_correspondecia {
+      display: none;
+    }
+    
+    .card {
+      transition: transform 0.4s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .stat-icon {
+      margin: 8px;
+      background: #96c7a0;
+      width: 65px;
+      height: 65px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card:hover .stat-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+    .card-body {
+      min-height: 280px;
+    }
+    .progress {
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .progress-bar {
+      transition: width 1s ease;
+    }
+    
+    .btn {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .number-stat {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+
+  <section class="container p-0 m-0" style="border: 1px solid #cacaca; border-radius: 12px; overflow: hidden;">
+    <h3 class="tittles_h3">
+      <i class="fas fa-chart-line me-2"></i>
+      Carga de Proyectos
+    </h3>
+    <p class="etiquetas_parrafos m-2">
+      <i class="fas fa-info-circle me-1"></i>Resumen general del estado y conteo de informaciones de proyectos.
+    </p>
+    <main class="m-0 p-2">
+      <section class="row g-2 m-4 p-1 text-center">
+        <article class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-body justify-content-between d-flex flex-column align-items-center">
+              <div class="stat-icon">
+                <i class="fas fa-file-alt fa-2x text-white"></i>
+              </div>
+              <div class="ms-3 text-center">
+                <p class="etiquetas_parrafos">Solicitudes de Anteproyecto</p>
+                <h5 class="number-stat">{{ num_solicitudes_ante }}</h5>
+              </div>
+              <div class="text-center mt-4">
+                <a href="{% url 'correspondencia:solicitudes_anteproyectos' %}" class="btn btn-success btns-solicitudes"><i class="fas fa-check-circle me-2"></i>Solicitudes de Anteproyecto</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-body justify-content-between d-flex flex-column align-items-center">
+              <div class="stat-icon">
+                <i class="fas fa-clipboard-list fa-2x text-white"></i>
+              </div>
+              <div class="ms-3 text-center">
+                <p class="etiquetas_parrafos">Solicitudes de Proyecto Final</p>
+                <h5 class="number-stat">{{ num_solicitudes_final }}</h5>
+              </div>
+              <div class="text-center mt-4">
+                <a href="{% url 'correspondencia:solicitudes_proyectos_finales' %}" class="btn btn-success btns-solicitudes"><i class="fas fa-check-circle me-2"></i>Solicitudes Finales</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-body justify-content-between d-flex flex-column align-items-center">
+              <div class="stat-icon">
+                <i class="fas fa-envelope-open-text fa-2x text-white"></i>
+              </div>
+              <div class="ms-3 text-center">
+                <p class="etiquetas_parrafos">Solicitudes Especiales</p>
+                <h5 class="number-stat">{{ num_solicitudes_esp }}</h5>
+              </div>
+              <div class="text-center mt-4">
+                <a href="{% url 'correspondencia:solicitudes_especiales' %}" class="btn btn-success btns-solicitudes"><i class="fas fa-check-circle me-2"></i>Solicitudes Especiales</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-body justify-content-between d-flex flex-column align-items-center">
+              <div class="stat-icon">
+                <i class="fas fa-folder-open fa-2x text-white"></i>
+              </div>
+              <div class="ms-3 text-center">
+                <p class="etiquetas_parrafos">Proyectos</p>
+                <div class="d-flex flex-column">
+                  <div class="d-flex justify-content-center m-1">
+                    <small>Proyectos Finalizados</small>
+                    <h5 class="number-stat ms-2">{{ num_proyectos_terminados }}</h5>
+                  </div>
+                  <div class="d-flex justify-content-center m-1">
+                    <small>Proyectos En Curso</small>
+                    <h5 class="number-stat ms-2">{{ num_proyectos_curso }}</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <a href="{% url 'correspondencia:proyectos' %}" class="btn btn-success btns-solicitudes"><i class="fas fa-tasks me-2"></i>Gestionar Proyectos</a>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <style>
+        .card_info_director {
+          border: 1px solid #e0e0e0;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease;
+        }
+        .card_info_director:hover {
+          transform: scale(1.05);
+        }
+        .card_info_director {
+          border-radius: 10px; /* Bordes redondeados */
+        }
+        
+        .card_info_director:nth-child(1) {
+          background-color: #e8f5e9 !important;
+        }
+        
+        .card_info_director:nth-child(2) {
+          background-color: #d1e7dd !important;
+        }
+        
+        .card_info_director:nth-child(3) {
+          background-color: #f0f4c3 !important;
+        }
+        
+        .card_info_director:nth-child(4) {
+          background-color: #c8e6c9 !important;
+        }
+        
+        .card_info_director p {
+          margin-bottom: 0;
+        }
+        .parrafos_cards {
+          min-height: 65px;
+        }
+      </style>
+      <section class="row mt-4 g-2">
+        <h3 class="tittles_h3">
+          <i class="fas fa-user-tie me-2"></i>
+          Carga de trabajo de cada director
+        </h3>
+        <p class="etiquetas_parrafos m-2">
+          <i class="fas fa-info-circle me-2"></i>
+          Estos son los datos de carga de trabajo de los directores
+        </p>
+
+        <article class="p-3 m-2">
+          {% for key, director in carga_directores.items %}
+            <div class="row p-2 d-flex justify-content-center align-items-center mt-4" style="border-top:1px solid #cacaca;">
+              <div class="col-12 col-md-3 text-center mb-3">
+                <p class="etiquetas_parrafos fs-5">
+                  <i class="fas fa-user-tie me-2 text-primary"></i><strong>{{ director.nombre_completo }}</strong>
+                </p>
+              </div>
+
+              <div class="col-12 col-md-9 d-flex justify-content-center">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+                  <div class="col">
+                    <div style="background: rgba(206, 255, 206, 0.5) !important;" class="card card_info_director text-center p-3 h-100" style="border: 1px solid rgba(193, 230, 193, 0.5);">
+                      <p class="etiquetas_parrafos parrafos_cards">
+                        <i class="fas fa-hourglass-half me-1 text-warning"></i><strong>Eval Anteproyecto Pendientes</strong>
+                      </p>
+                      <p class="fs-5">
+                        <strong>{{ director.evaluaciones_anteproyecto_pendientes }}</strong>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div style="background: rgba(206, 255, 206, 0.5) !important;" class="card card_info_director text-center p-3 h-100" style="border: 1px solid rgba(178, 224, 178, 0.5);">
+                      <p class="etiquetas_parrafos parrafos_cards">
+                        <i class="fas fa-tasks me-1 text-success"></i><strong>Eval Proyecto Final Pendientes</strong>
+                      </p>
+                      <p class="fs-5">
+                        <strong>{{ director.evaluaciones_proyecto_final_pendientes }}</strong>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div style="background: rgba(206, 255, 206, 0.5) !important;" class="card card_info_director text-center p-3 h-100" style="border: 1px solid rgba(168, 225, 168, 0.5);">
+                      <p class="etiquetas_parrafos parrafos_cards">
+                        <i class="fas fa-folder-open me-1 text-info"></i><strong>Anteproyectos</strong>
+                      </p>
+                      <p class="fs-5">
+                        <strong>{{ director.num_anteproyectos_pendientes }}</strong>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div style="background: rgba(206, 255, 206, 0.5) !important;" class="card card_info_director text-center p-3 h-100" style="border: 1px solid rgba(149, 224, 149, 0.5);">
+                      <p class="etiquetas_parrafos parrafos_cards">
+                        <i class="fas fa-check-double me-1 text-danger"></i><strong>Proyectos Finales</strong>
+                      </p>
+                      <p class="fs-5">
+                        <strong>{{ director.num_proyectos_pendientes }}</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </article>
+      </section>
+    </main>
+  </section>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+  Estudiante
+{% endblock %}
+
+{% block extra_head %}
+
+{% endblock %}
+
+{% block principal_estudiante %}
+  <style>
+    html,
+    body {
+      background: none;
+    }
+    
+    .header {
+    }
+  </style>
+  <div class="header position-relative">
+    {% include 'components/header.html' %}
+    {% include 'estudiante/components/nav_modulos.html' %}
+    {% include 'components/toasts.html' %}
+  </div>
+
+  <style>
+    .contenido_estudiante_view {
+      border: 1px solid #cacaca;
+      border-radius: 12px;
+      box-shadow: inset 0px 0px 20px -5px #d8d8d8;
+    
+      margin: 24px 24px;
+    }
+    .contenido_estudiante {
+      margin-top: 50px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #cacaca;
+      padding: 0px !important;
+    }
+  </style>
+  {% include 'components/toasts.html' %}
+  {% include 'components/modal_fechas.html' %}
+  <main class="container position-relative justify-content-center align-items-center">
+    {% block solicitud %}
+
+    {% endblock %}
+
+    <div class="inf_user">
+      {% include 'components/view_estudiante.html' %}
+    </div>
+    {% block informacion_proyecto %}
+
+    {% endblock %}
+    {% block linea_tiempo %}
+
+    {% endblock %}
+    {% block formatos %}
+
+    {% endblock %}
+    {% block avances_proyecto %}
+
+    {% endblock %}
+
+    {% comment %}seccion de la configuracion de cuenta{% endcomment %}
+    <style>
+      #panel_config {
+        width: 100%;
+        left: 0;
+        top: 40px;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #f9f9f9;
+        border: 1px solid #d0d0d0;
+        /*Revisar este*/
+        overflow: scroll;
+      }
+      
+      .tittles_h3 {
+        color: #fff;
+        margin: 0;
+        background: #0e360e;
+        padding-top: 24px;
+        padding: 8px 12px;
+      }
+    </style>
+    {% include 'components/config_user.html' %}
+
+    {% comment %}recordar el manejo de mediaquerys{% endcomment %}
+  </main>
+{% endblock %}

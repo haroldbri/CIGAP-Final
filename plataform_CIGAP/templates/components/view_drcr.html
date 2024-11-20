@@ -1,0 +1,24 @@
+{% load static %}
+<section class="container position-relative cards d-flex justify-content-center align-items-center flex-column flex-md-row mt-5">
+  {% include 'components/cardinf_user.html' %}
+  {% include 'components/cardinf_proyects.html' %}
+
+  <img src="{% static 'icons/icons_nav/logoUDEC.png' %}" alt="LogoUDEC" class="position-absolute imagen-fondo" />
+
+  {% comment %}seccion de la configuracion de cuenta{% endcomment %}
+
+  {% comment %}recordar el manejo de mediaquerys{% endcomment %}
+  <style>
+    #panel_config {
+      top: -20px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f9f9f9;
+      border: 1px solid #d0d0d0;
+    }
+  </style>
+  <div id="panel_config" class="position-absolute" style="z-index: 0;opacity: 0; ">
+    {% include 'components/config_user.html' %}
+  </div>
+</section>

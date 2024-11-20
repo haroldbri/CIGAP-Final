@@ -1,0 +1,157 @@
+{% extends 'correspondencia/base_correspondencia.html' %}
+{% load static %}
+{% block proyectos_actuales %}
+  <style>
+    .content_correspondecia {
+      display: none;
+    }
+    .views {
+      display: flex;
+    }
+    .container_table {
+      overflow: scroll;
+    }
+    .table {
+      padding: 4px;
+      border-radius: 8px;
+    }
+    /*estilos de la tabla del plugin*/
+    .dt-layout-row {
+      justify-content: space-around;
+      align-items: center;
+      display: flex;
+      margin-bottom: 12px;
+    }
+    .dt-input {
+      margin: 0 8px;
+      border: 1px solid #cacaca;
+    }
+    .dt-layout-row:nth-child(2) {
+      justify-content: space-around;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 12px;
+    }
+    
+    button {
+      border: 1px solid #cacaca;
+      color: #fff;
+      background: #1f5819;
+      border-radius: 4px;
+      padding: 4px 12px;
+      margin: 4px;
+    }
+    /*estilos personalizados para la tabla*/
+    
+    #tabla_resultados th,
+    #tabla_resultados td {
+      background-color: #fff;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #cacaca;
+    }
+    
+    #tabla_resultados thead th {
+      background: #00532c;
+      color: white;
+    }
+    
+    /* Estilo para las filas alternas */
+    #tabla_resultados tbody tr:nth-child(even) {
+      background-color: #fff;
+    }
+  </style>
+  {% if proyectos %}
+    <section class="container p-0" style="overflow: scroll;">
+      <h3 class="tittles_h3"><i class="fas fa-list-alt"></i> Lista de proyectos actuales</h3>
+      <div class="container my-4">
+        <p class="etiquetas_parrafos">
+          <i class="fas fa-info-circle"></i> A continuación, se presenta una tabla con los proyectos en curso. Utiliza las opciones de búsqueda y paginación para explorar y analizar la información de manera más detallada.
+        </p>
+
+        <input class="form-control mb-3" id="searchInput" type="text" placeholder="Buscar " />
+
+        <table class="table table-light table-striped table-bordered">
+          <thead class="">
+            <tr>
+              <th scope="col">
+                <i class="fas fa-hashtag"></i> #
+              </th>
+              <th scope="col">
+                <i class="fas fa-project-diagram"></i> Nombre del proyecto
+              </th>
+              <th scope="col">
+                <i class="fas fa-user-graduate"></i> Estudiantes
+              </th>
+              <th scope="col">
+                <i class="fas fa-user-tie"></i> Director
+              </th>
+              <th scope="col">
+                <i class="fas fa-user"></i> Codirector
+              </th>
+              <th scope="col">
+                <i class="fas fa-calendar-check"></i> Fecha de aprobación
+              </th>
+              <th scope="col">
+                <i class="fas fa-calendar-alt"></i> Fecha estimada de finalización
+              </th>
+              <th scope="col">
+                <i class="fas fa-info-circle"></i> Más Info
+              </th>
+            </tr>
+          </thead>
+          <tbody id="tablaResultados" class="table-group-divider">
+            {% for key, value in proyectos.items %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ value.proyecto.anteproyecto.nombre_anteproyecto }}</td>
+                {% if value.proyecto.anteproyecto.nombre_integrante2 %}
+                  <td>{{ value.proyecto.anteproyecto.nombre_integrante1 }} - {{ value.proyecto.anteproyecto.nombre_integrante2 }}</td>
+                {% else %}
+                  <td>{{ value.proyecto.anteproyecto.nombre_integrante1 }}</td>
+                {% endif %}
+                <td>{{ value.proyecto.anteproyecto.director }}</td>
+                {% if value.proyecto.anteproyecto.codirector %}
+                  <td>{{ value.proyecto.anteproyecto.codirector }}</td>
+                {% else %}
+                  <td>No tiene</td>
+                {% endif %}
+                {% if value.fecha_inicio %}
+                  <td>{{ value.fecha_inicio|date:'d/m/Y' }}</td>
+                {% else %}
+                  <td>No cuenta con fecha de envío</td>
+                {% endif %}
+                {% if value.fecha_finalizacion %}
+                  <td>{{ value.fecha_finalizacion|date:'d/m/Y' }}</td>
+                {% else %}
+                  <td>No cuenta con fecha de finalización</td>
+                {% endif %}
+                <td>
+                  <a class="btn btn-success btns-solicitudes" href="{% url 'correspondencia:proyecto_actual' value.proyecto.id %}"><i class="fas fa-info-circle"></i> Más info</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  {% else %}
+    <h3 class="tittles_h3"><i class="fas fa-tasks"></i> Proyectos en curso</h3>
+    <p class="etiquetas_parrafos">
+      <i class="fas fa-info-circle"></i> Por el momento no hay proyectos en curso.
+    </p>
+  {% endif %}
+
+  <script>
+    $(document).ready(function () {
+      // Filtro de búsqueda
+      $('#searchInput').on('keyup', function () {
+        var value = $(this).val().toLowerCase()
+        $('#tablaResultados tr').filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        })
+      })
+    })
+  </script>
+{% endblock %}

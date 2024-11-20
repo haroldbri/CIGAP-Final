@@ -1,0 +1,12 @@
+{% extends 'estudiante/base_estudiante.html' %}
+
+{% block formatos %}
+  <style>
+    .inf_user {
+      display: none;
+    }
+  </style>
+  <div class="contenido_estudiante mt-5" style="border-radius: 12px ; border:1px solid #cacaca; overflow: hidden;">
+    {% include 'components/view_formatos.html' %}
+  </div>
+{% endblock %}

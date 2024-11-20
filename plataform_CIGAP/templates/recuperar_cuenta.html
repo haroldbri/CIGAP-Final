@@ -1,0 +1,121 @@
+{% extends 'login.html' %}
+
+{% block recuperar_cuenta %}
+  <style>
+    body {
+      background-color: #2a2a2a;
+      color: #ffffff;
+    }
+    .content_login {
+      display: none;
+    }
+    .recuperar-cuenta {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background-color: #2a2a2a;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+    .card-header {
+      border-bottom: 2px solid #ffffff;
+      padding: 20px;
+    }
+    .card-body {
+      padding: 30px;
+    }
+    .form-control {
+      background-color: #ffffff;
+      color: #000000;
+      border: none;
+    }
+    .input-group-text {
+      background-color: #ffffff;
+      border: none;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+      border-radius: 8px !important;
+      font-weight: bold;
+    }
+    .btn-outline-light {
+      border-color: #ffffff;
+      color: #ffffff;
+    }
+    .btn-outline-light:hover {
+      background-color: #ffffff;
+      color: #2a2a2a;
+    }
+  </style>
+
+  <div class="recuperar-cuenta">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="text-center m-0">Recupera tu cuenta</h1>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          <p class="mb-3" style="color: #fff;">Ingresa tu correo electrónico:</p>
+          <div class="input-group mb-3">
+            <input id="email" type="email" name="email" class="form-control" placeholder="example@app.com" required />
+            <span class="input-group-text">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z" />
+              </svg>
+            </span>
+          </div>
+          <button type="submit" id="submit" class="btn btn-primary botones_envios w-100 mt-3">Enviar enlace de recuperación</button>
+        </form>
+        <p class="mt-4 text-center">
+          <a href="{% url 'login:loginapps' %}" class="text-white btn btn-outline-success" style="text-decoration: none;">Volver a la página de inicio de sesión</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {% include 'components/toasts.html' %}
+
+  {% if usuario and link_recuperar %}
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+      ;(function () {
+        emailjs.init('IDrBsYbgt6bDembxR')
+      })()
+      
+      async function enviar_correo(email, nombre_completo, link_recuperar) {
+        try {
+          const serviceID = 'service_pktn6oj'
+          const templateID = 'template_yqey7cd'
+      
+          const emailParams = {
+            from_name: 'Plataforma CIGAP Ubaté',
+            to_email: email,
+            user_name: nombre_completo,
+            link_recuperar: link_recuperar
+          }
+      
+          await emailjs.send(serviceID, templateID, emailParams)
+          console.log('Correo enviado exitosamente')
+          setTimeout(() => {
+            window.location.href = "{% url 'login:loginapps' %}"
+          }, 3000)
+        } catch (error) {
+          console.error('Error al enviar el correo:', error)
+        }
+      }
+      
+      const email = '{{ usuario.email|escapejs }}'
+      const nombre_completo = '{{ usuario.nombre_completo|escapejs }}'
+      const link_recuperar = '{{ link_recuperar|escapejs }}'
+      
+      enviar_correo(email, nombre_completo, link_recuperar)
+    </script>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,63 @@
+{% load static %}
+<style>
+  .toast {
+    z-index: 2001;
+  }
+  
+  #liveToast {
+    background: var(--colores_institucionalesfondo1) !important; /* Fondo personalizado */
+  }
+  
+  div #toast-text {
+    background: #ffffff; /* Fondo blanco para el texto */
+    color: var(--colores_institucionalesTextoNegrilla); /* Color personalizado para el texto */
+  }
+  
+  .toast-body {
+    color: #666 !important;
+    background: #fff; /* Fondo blanco para el cuerpo del toast */
+  }
+  
+  .text-muted {
+    color: #fff; /* Color blanco para texto menos prominente */
+  }
+  
+  .btn-close {
+    color: #fff; /* Icono de cerrar en blanco */
+  }
+  
+  .toast-header {
+    color: #fff !important; /* Texto del encabezado en blanco */
+    background: var(--colores_institucionalesfondo1) !important; /* Fondo del encabezado personalizado */
+  }
+  
+  .toast-body {
+    background: #fff; /* Fondo blanco para el cuerpo del toast */
+  }
+</style>
+
+<div id="toast-container" style="position: fixed; top: 20px; right: 30px; z-index: 1001;">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="margin-top: 10px;">
+        <div class="toast-header">
+          <img src="{% static 'icons/gestion-de-proyectos.png' %}" class="rounded me-2" alt="..." style="width: 30px; height: 30px;" />
+          <strong class="me-auto">Plataforma CIGAP</strong>
+          <small class="text-muted" style="color: #fff !important;">Ahora</small> <!-- Este texto será blanco -->
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" style="color: #fff!important;"></button> <!-- Icono de cerrar en blanco -->
+        </div>
+        <div class="toast-body">{{ message }}</div>
+      </div>
+    {% endfor %}
+  {% endif %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    var toastList = toastElList.map(function (toastEl) {
+      return new bootstrap.Toast(toastEl)
+    })
+    toastList.forEach((toast) => toast.show())
+  })
+</script>

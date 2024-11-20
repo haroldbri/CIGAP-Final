@@ -1,0 +1,80 @@
+#sectionForm {
+    transition: all 1s;
+
+    display: none;
+    color: #fff;
+    box-shadow: 0px 0px 25px -4px rgba(41, 87, 82, 0.97);
+
+    transition: all 1s;
+
+}
+
+/* #campoForm{
+    overflow: scroll;
+} */
+.form-control {
+    transition: all 0.5s;
+}
+
+.form-control:focus-within {
+    margin: 12px 0 12px 0;
+    transition: all 0.5s;
+}
+
+
+/*
+componente de verificacion de los campos
+*/
+
+.config-verfi {
+    padding: 4px;
+    font-size: 10px;
+    text-align: center;
+    margin: 0;
+}
+
+.btn-volver {
+    display: none;
+    background-color: transparent;
+    color: rgb(0, 0, 0);
+    align-items: center;
+    transition: all 2s;
+
+
+}
+
+.animacionBTNVOLVER {
+    border-radius: 8px;
+    display: flex;
+    background-color: var(--colores_institucionalesfondo4);
+    color: aliceblue;
+    align-items: center;
+    animation: boton 1.5s infinite;
+    -webkit-animation: boton 1.5s infinite;
+}
+
+@keyframes boton {
+    0% {
+        background-color: #1e3921;
+
+    }
+
+    50% {
+        box-shadow: 0px 0px 25px 8px rgba(41, 87, 82, 0.97);
+        background-color: #36922d;
+        transform: scale(1.07);
+        -webkit-transform: scale(1.07);
+        -moz-transform: scale(1.07);
+        -ms-transform: scale(1.07);
+        -o-transform: scale(1.07);
+    }
+
+    100% {
+        background-color: #1e3921;
+        transform: scale(1);
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+    }
+}

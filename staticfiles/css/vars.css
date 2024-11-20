@@ -1,0 +1,32 @@
+/*Raiz del proyecto donde la gente coloca los estilos*/
+:root {
+    --font-dm-sans: "DM Sans", sans-serif;
+    /*variable*/
+    /*colors*/
+    --font--text-small: 12px;
+    --text-base-light: #fff;
+    --bg-arrow-color: rgba(0, 0, 07);
+
+    --verfif: #1e9c2b;
+    --warning: #ffcf0d;
+    --notverif: #ff4d4d;
+
+    --font--text-g: "Saira", sans-serif;
+
+
+    --colores_institucionalesfondo1: #002412;
+    --colores_institucionalesfondoDegradado1: linear-gradient(120deg, #00A99D, #79C000);
+    --colores_institucionalesfondoDegradado2: linear-gradient(120deg, #79C000, #FBE122);
+    --colores_institucionalesfondoDegradado3: linear-gradient(120deg, #00A99D, #79C000);
+    --colores_institucionalesfondo5: #FBE122;
+    --colores_institucionalesfondo3: #DAAA00;
+    --colores_institucionalesfondo4: #79C000;
+    --colores_institucionalesfondo2: #3C3C3B;
+    --colores_institucionalestitulo1: #007A3D;
+    --colores_institucionalestitulo2: #000000;
+    --colores_institucionalesTextoNegrilla: #2A7F3D;
+    --colores_institucionalesTextoNegrilla: #666666;
+
+
+
+}

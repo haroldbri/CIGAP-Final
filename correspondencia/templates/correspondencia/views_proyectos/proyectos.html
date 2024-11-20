@@ -1,0 +1,70 @@
+{% extends 'correspondencia/base_correspondencia.html' %}
+{% load static %}
+{% block proyectos %}
+  <style>
+    .content_correspondecia {
+      display: none;
+    }
+    .views {
+      display: flex;
+    }
+    
+    .main-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .card-content {
+      flex: 1 1 calc(33.333% - 20px);
+      box-sizing: border-box;
+    }
+  </style>
+
+  <main class="d-flex flex-column">
+    <h3 class="tittles_h3"><i class="fas fa-project-diagram"></i> Proyectos</h3>
+
+    <p class="etiquetas_parrafos etiq-parrafo text-center m-0 p-3 mb-3">
+      <i class="fas fa-info-circle"></i> En esta sección, puedes explorar los <strong>proyectos en curso</strong> y los <strong>proyectos finalizados</strong>. Además, puedes <strong>asignar jurados</strong> a cada proyecto según sea necesario.
+    </p>
+
+    <article class="main-grid p-3 mt-3">
+      <div class="card-content col-md-3 mb-4">
+        <div class="d-flex card h-100 text-center">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-tasks"></i> Proyectos en Curso</h5>
+            <p class="etiquetas_parrafos etiq-parrafo card-text">
+              <i class="fas fa-sync-alt"></i> Conoce los proyectos que están actualmente en desarrollo y asigna jurados.
+            </p>
+          </div>
+          <div class="card-footer link-card d-flex flex-column">
+            <a href="{% url 'correspondencia:proyectos_actuales' %}" class="w-100 h-100">
+              <img src="{% static 'correspondencia/icons/image_pendiente.png' %}" alt="icon" class="img-fluid mb-2" />
+              <p class="etiquetas_parrafos etiq-parrafo card-text">
+                <i class="fas fa-hourglass-half"></i> Proyectos en curso: {{ num_proyectos_actuales }}
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-content col-md-3 mb-4">
+        <div class="d-flex card h-100 text-center">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-check-circle"></i> Proyectos Finalizados</h5>
+            <p class="etiquetas_parrafos etiq-parrafo card-text">
+              <i class="fas fa-clipboard-check"></i> Revisa los proyectos que ya han sido completados y asigna jurados.
+            </p>
+          </div>
+          <div class="card-footer link-card d-flex flex-column">
+            <a href="{% url 'correspondencia:proyectos_finalizados' %}" class="w-100 h-100">
+              <img src="{% static 'correspondencia/icons/image_finalizado.png' %}" alt="icon" class="img-fluid mb-2" />
+              <p class="etiquetas_parrafos etiq-parrafo card-text">
+                <i class="fas fa-flag-checkered"></i> Proyectos finalizados: {{ num_proyectos_terminados }}
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+{% endblock %}

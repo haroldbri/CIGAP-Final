@@ -1,0 +1,75 @@
+<style>
+  /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7 */
+  /* estilos de la barra de navegacion de los modulos */
+  
+  .titulo_modulos {
+    color: var(--colores_institucionalestitulo1);
+    font-weight: 450;
+  }
+  
+  /* configuracion del la nav */
+  .navMenu {
+    margin: 0;
+    display: flex;
+  
+    box-shadow: 1px 3px 6px -2px #28482a;
+  }
+  
+  .modulo {
+    padding: 4px;
+    margin: 8px;
+  
+    transition: all 0.2s;
+    text-decoration: none;
+    color: #fff;
+    background: none;
+  }
+  
+  .modulo:hover {
+    font-weight: 400;
+    background: var(--colores_institucionalesfondo4);
+    color: #fff;
+    border-radius: 6px;
+  }
+  
+  /*estilos de la nav de modulos*/
+  .modulos,
+  .collapse_estudiantes {
+    color: #fff !important;
+    background: var(--colores_institucionalesfondo1) !important;
+  }
+  
+  ul {
+    background: none !important;
+  }
+  .navbar h5 {
+    border-right: 2px solid white;
+    padding: 8px 20px;
+    margin: 0;
+    text-align: center;
+    font-weight: 300;
+  }
+  /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7 */
+</style>
+
+<h1 class="titulo_modulos text-center m-2">Modulos</h1>
+<nav class="navbar p-0 m-0 navbar-expand-lg navbar-light bg-light nav navMenu modulos position-relative">
+  <div class="collapse_estudiantes container-fluid p-1 d-flex justify-content-center align-content-center">
+    <h5>Servicios</h5>
+    <button class="navbar-toggler m-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <svg style="color:white;" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+      </svg>
+    </button>
+    <div class="collapse_estudiantes collapse container-fluid navbar-collapse" id="navbarSupportedContent">
+      <div class="d-flex w-100 flex-column flex-md-row justify-content-around text-center align-items-center">
+        <a class="modulo w-100" href="{% url 'estudiante:principal_estudiante' %}">Estudiante</a>
+        <a class="modulo w-100" href="{% url 'estudiante:solicitud' %}">Anteproyecto</a>
+        <a class="modulo w-100" href="{% url 'estudiante:avances_proyecto' %}">Proyecto de grado</a>
+        <a class="modulo w-100" href="{% url 'estudiante:info_proyect' %}">Información del proyecto</a>
+        <a class="modulo w-100" href="{% url 'estudiante:formatos_documentos' %}">Formatos</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<nav class="position-relative d-flex justify-content-around align-items-center text-center"></nav>

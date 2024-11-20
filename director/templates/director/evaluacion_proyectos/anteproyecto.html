@@ -1,0 +1,386 @@
+{% extends 'director/evaluacion_proyectos/eva_proyectos.html' %}
+{% block anteproyecto %}
+  <style>
+    .principal_director {
+      display: none;
+    }
+    .content_eva_proyectos {
+      display: none;
+    }
+    .anteproyecto-info-title {
+      color: #2c3e50;
+      border-bottom: 1px solid #cacaca;
+      padding-bottom: 10px;
+    }
+    .sections-anteproyecto {
+    }
+    
+    .anteproyecto-info-text {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    /* Documento del Anteproyecto */
+    .anteproyecto-doc-title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    
+    .anteproyecto-doc-details {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .anteproyecto-doc-simulation {
+      border: 1px solid #e0e0e0;
+      border-radius: 5px;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    
+    /* Botones */
+    .anteproyecto-btn-download {
+      font-size: 16px;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      border-radius: 5px;
+      text-align: center;
+    }
+    
+    .anteproyecto-btn-download:hover {
+      background-color: #2980b9;
+      color: #f1f1f1;
+    }
+    
+    /* Formulario de Evaluación */
+    .anteproyecto-form-title {
+      color: #2c3e50;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    
+    .anteproyecto-form-label {
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .anteproyecto-form-control {
+      border: 1px solid #cacaca;
+      border-radius: 5px;
+    }
+    
+    .anteproyecto-form-control:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    }
+    
+    .anteproyecto-form-submit {
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+    
+    .anteproyecto-form-submit:hover {
+      background-color: #2980b9;
+    }
+    
+    /* Estado botones */
+    .anteproyecto-estado-btn {
+      width: 120px;
+      font-size: 16px;
+      padding: 8px;
+      margin-right: 10px;
+    }
+    
+    .anteproyecto-estado-btn-check {
+      display: none;
+    }
+    
+    #form_evaluacion {
+      opacity: 0;
+      width: 75%;
+      box-shadow: 0px 0px 20px -4px;
+      border-radius: 12px;
+      border: 1px solid #cacaca;
+      padding: 16px;
+    
+      background: #fff;
+    }
+  </style>
+
+  <div class="w-100 position-relative d-flex flex-column justify-content-center align-items-center p-0" style="border:1px solid #cacaca; border-radius: 12px;overflow:hidden;">
+    <h3 class="mb-4 tittles_h3">Evaluación de Anteproyecto</h3>
+
+    <section class="mb-5 p-3 sections-anteproyecto w-100">
+      <h4 class="tittles_h4 anteproyecto-info-title">Información del Anteproyecto</h4>
+      <div class="row">
+        <div class="col-md-6 anteproyecto-info-text">
+          <p class="etiquetas_parrafos">
+            <i class="fas fa-book"></i> <strong>Título:</strong> {{ anteproyecto.nombre_anteproyecto }}
+          </p>
+          <p class="etiquetas_parrafos">
+            <i class="fas fa-users"></i> <strong>Integrantes:</strong><br />
+            {% if anteproyecto.nombre_integrante2 %}
+              {{ anteproyecto.nombre_integrante1 }}<br />
+              {{ anteproyecto.nombre_integrante2 }}
+            {% else %}
+              {{ anteproyecto.nombre_integrante1 }}
+            {% endif %}
+          </p>
+          <p class="etiquetas_parrafos">
+            <i class="fas fa-calendar-alt"></i> <strong>Fecha de Presentación:</strong> <time datetime="">{{ anteproyecto.fecha_envio }}</time>
+          </p>
+          {% if evaluacion.estado %}
+            <div class="d-flex flex-column">
+              <h6><i class="fas fa-check-circle"></i> Evaluación Existente</h6>
+              <p class="etiquetas_parrafos">Ya hay una evaluación para este anteproyecto.</p>
+              <p class="etiquetas_parrafos">
+                <i class="fas fa-star"></i> <strong>Calificación:</strong> {{ evaluacion.calificacion }}
+              </p>
+              <p class="etiquetas_parrafos">
+                <i class="fas fa-comment-dots"></i> <strong>Comentarios:</strong> {{ evaluacion.comentarios }}
+              </p>
+
+              <div class="mt-1 row mb-1">
+                <div class="col">
+                  <button id="btn_enviar_evaluacion" class="btn btn-warning btns-editar mt-2" data-bs-toggle="modal" data-bs-target="#modal_editar_evaluacion"><i class="fas fa-edit"></i> Editar evaluación</button>
+                </div>
+                {% comment %} <div class="col">
+                  <button id="eliminar_evaluacion" class="btn btns-cancelar-cerrar btns-editar mt-2"><i class="fas fa-trash-alt"></i> Eliminar evaluación</button>
+                </div> {% endcomment %}
+              </div>
+              <p class="etiquetas_parrafos">
+                <i class="bi bi-check-circle-fill text-success"></i> Documento cargado.
+              </p>
+
+              <embed class="mt-1" src="data:application/pdf;base64,{{ doc_evaluacion_anteproyecto }}" type="application/pdf" width="100%" height="200px" />
+            </div>
+          {% else %}
+
+          {% endif %}
+        </div>
+        <div class="col-md-6 anteproyecto-info-text">
+          <p class="etiquetas_parrafos">
+            <i class="fas fa-file-alt"></i> <strong>Descripción:</strong>
+          </p>
+          <p class="etiquetas_parrafos">{{ anteproyecto.descripcion }}</p>
+        </div>
+      </div>
+      <div class="row">
+        {% if evaluacion.estado == True %}
+          <div class="modal fade" id="modal_editar_evaluacion" tabindex="-1" aria-labelledby="modalEvaluacion" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalEvaluacionLabel">Edite su Evaluación</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="editevaluacionForm" action="{% url 'director:enviar_evaluacion' anteproyecto.id %}" novalidate enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                      <label for="observacion" class="form-label">Observaciones</label>
+                      <textarea class="form-control" id="observacion" name="comentarios" rows="4" required>{{ evaluacion.comentarios }}</textarea>
+                      <small class="form-text text-muted">Escriba sus observaciones sobre el anteproyecto. <br /><strong>Observaciones anteriores:</strong> {{ evaluacion.comentarios }}</small>
+                      <div class="invalid-feedback">Este campo es obligatorio.</div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="calificacion" class="form-label">Calificación (0-100)</label>
+                      <input type="number" class="form-control" id="calificacion" min="0" max="100" step="0.01" required name="calificacion" value="{{ evaluacion.calificacion }}" />
+                      <small class="form-text text-muted">Asigne una calificación al anteproyecto, calificación anterior {{ evaluacion.calificacion }}</small>
+                      <div class="invalid-feedback">Debe asignar una calificación válida (0-100).</div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="archivo_pdf" class="form-label">Subir archivo PDF</label>
+                      <input type="file" class="form-control" id="archivo_pdf" accept="application/pdf" required name="doc_retroalimentacion_convert" />
+                      <small class="form-text text-muted">Suba correcciones del anteproyecto en formato PDF.</small>
+                      <div class="invalid-feedback">Debe subir un archivo en formato PDF.</div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary btns-solicitudes">Enviar Evaluación</button>
+                      <button type="button" class="btn btn-secondary btns-cancelar-cerrar" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <div>
+            <h6><i class="fas fa-times-circle"></i> Sin Evaluación</h6>
+            <p class="etiquetas_parrafos">No hay una evaluación registrada para este anteproyecto.</p>
+            <button id="btn_enviar_evaluacion" class="btn btn-primary mt-2 botones_envios" data-bs-toggle="modal" data-bs-target="#modal_evaluacion"><i class="fas fa-paper-plane"></i> Enviar evaluación</button>
+          </div>
+          <div class="modal fade" id="modal_evaluacion" tabindex="-1" aria-labelledby="modalEvaluacionLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalEvaluacionLabel">Formulario de Evaluación</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="evaluacionForm" action="{% url 'director:enviar_evaluacion' anteproyecto.id %}" novalidate enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                      <label for="observacion" class="form-label">Observaciones</label>
+                      <textarea class="form-control" id="observacion" name="comentarios" rows="4" required></textarea>
+                      <small class="form-text text-muted">Escriba sus observaciones sobre el anteproyecto.</small>
+                      <div class="invalid-feedback">Este campo es obligatorio.</div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="calificacion" class="form-label">Calificación (0-100)</label>
+                      <input type="number" class="form-control" id="calificacion" min="0" max="100" step="0.01" required name="calificacion" value="{{ evaluacion.calificacion }}" />
+                      <small class="form-text text-muted">Asigne una calificación al anteproyecto, calificación anterior {{ evaluacion.calificacion }}</small>
+                      <div class="invalid-feedback">Debe asignar una calificación válida (0-100).</div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="archivo_pdf" class="form-label">Subir archivo PDF</label>
+                      <input type="file" class="form-control" id="archivo_pdf" accept="application/pdf" required name="doc_retroalimentacion_convert" />
+                      <small class="form-text text-muted">Suba correcciones del anteproyecto en formato PDF.</small>
+                      <div class="invalid-feedback">Debe subir un archivo en formato PDF.</div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary btns-solicitudes">Enviar Evaluación</button>
+                      <button type="button" class="btn btn-secondary btns-cancelar-cerrar" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <section class="mb-5 sections-anteproyecto w-100">
+      <h3 class="anteproyecto-info-title tittles_h3"><i class="fas fa-file-pdf"></i> Documento del Anteproyecto</h3>
+      <div class="anteproyecto-doc-simulation">
+        <h3 class="anteproyecto-doc-title">{{ anteproyecto.nombre_anteproyecto }}.pdf</h3>
+        <p class="anteproyecto-doc-details">
+          <i class="fas fa-file-pdf"></i> Documento
+        </p>
+        <div class="mt-1 d-flex flex-column">
+          <div class="mt-1">
+            <a href="data:application/pdf;base64,{{ doc_anteproyecto }}" download="{{ anteproyecto.nombre_anteproyecto }}.pdf" class="btn btn-outline-primary mb-2"><i class="fas fa-download"></i> Descargar PDF</a>
+          </div>
+          <embed src="data:application/pdf;base64,{{ doc_anteproyecto }}" type="application/pdf" width="100%" height="600px" />
+        </div>
+      </div>
+    </section>
+
+    {% include 'components/toasts.html' %}
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('editevaluacionForm')
+    
+      form.addEventListener('submit', function (event) {
+        event.preventDefault()
+        event.stopPropagation()
+    
+        if (!form.checkValidity()) {
+          form.classList.add('was-validated')
+          Swal.fire({
+            icon: 'error',
+            title: 'Formulario incompleto',
+            text: 'Por favor, complete todos los campos requeridos antes de enviar.'
+          })
+        } else {
+          Swal.fire({
+            title: '¿Está seguro de que desea enviar?',
+            text: 'Una vez enviado, no podrá cambiar su selección.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, enviar',
+            cancelButtonText: 'No, cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: 'Enviando...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                  Swal.showLoading()
+                }
+              })
+    
+              setTimeout(() => {
+                form.submit()
+              }, 3000)
+            }
+          })
+        }
+      })
+      const form_evaluar = document.getElementById('evaluacionForm')
+    
+      form_evaluar.addEventListener('submit', function (event) {
+        event.preventDefault()
+        event.stopPropagation()
+    
+        if (!form.checkValidity()) {
+          form.classList.add('was-validated')
+          Swal.fire({
+            icon: 'error',
+            title: 'Formulario incompleto',
+            text: 'Por favor, complete todos los campos requeridos antes de enviar.'
+          })
+        } else {
+          Swal.fire({
+            title: '¿Está seguro de que desea enviar?',
+            text: 'Una vez enviado, no podrá cambiar su selección.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, enviar',
+            cancelButtonText: 'No, cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: 'Enviando...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                  Swal.showLoading()
+                }
+              })
+    
+              setTimeout(() => {
+                form.submit()
+              }, 3000)
+            }
+          })
+        }
+      })
+    
+      /*document.getElementById('eliminar_evaluacion').addEventListener('click', function (e) {
+                                                                e.preventDefault()
+                                                            
+                                                                Swal.fire({
+                                                                  title: '¿Estás seguro?',
+                                                                  text: 'Estás a punto de eliminar esta evaluación. Esta acción no se puede deshacer.',
+                                                                  icon: 'warning',
+                                                                  showCancelButton: true,
+                                                                  confirmButtonColor: '#3085d6',
+                                                                  cancelButtonColor: '#d33',
+                                                                  confirmButtonText: 'Sí, eliminar',
+                                                                  cancelButtonText: 'Cancelar'
+                                                                }).then((result) => {
+                                                                  if (result.isConfirmed) {
+                                                                    // Acción para eliminar la evaluación
+                                                                    Swal.fire('¡Eliminado!', 'La evaluación ha sido eliminada exitosamente.', 'success')
+                                                            
+                                                                    window.location.href = "{% url 'director:eliminar_evaluacion' evaluacion.id %}"
+                                                                  }
+                                                                })
+                                                              })*/
+    })
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% endblock %}

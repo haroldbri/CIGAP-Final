@@ -1,0 +1,12 @@
+{% extends 'director/base_director.html' %}
+
+{% block view_documentos_correspondencia %}
+  <style>
+    .principal_director {
+      display: none;
+    }
+  </style>
+  <div class="container">
+    {% include 'components/view_formatos.html' %}
+  </div>
+{% endblock %}

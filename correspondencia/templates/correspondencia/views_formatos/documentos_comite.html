@@ -1,0 +1,179 @@
+{% extends 'correspondencia/base_correspondencia.html' %}
+
+{% block view_documentos_correspondencia %}
+  <style>
+    .views {
+      display: flex;
+    }
+    .content_correspondecia {
+      display: none;
+    }
+    
+    /* Estilos para el formulario */
+    #content-form {
+      margin-top: 30px;
+      border-radius: 12px;
+      box-shadow: 0px 0px 10px 2px #505050;
+      border: 2px solid #7d7d7d;
+      background: #fff;
+      left: -700px;
+    
+      transition: all 0.5s;
+      position: absolute;
+      overflow: hidden;
+    }
+    
+    #content-form h4 {
+      padding: 12px 12px;
+      color: #fff;
+      background: var(--colores_institucionalesfondoDegradado3);
+    }
+    
+    /* Estilos para las cards */
+    .card {
+      width: 18rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-body {
+      padding: 10px;
+      text-align: center;
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .card-text {
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+    
+    .botones {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-around;
+      gap: 10px;
+    }
+    
+    .card img,
+    .card embed {
+      height: 240px;
+      object-fit: cover;
+      border-radius: 8px 8px 0 0;
+    }
+    
+    /* Ajuste general para grid de cards */
+    .grid-cards {
+      width: 100%;
+      display: grid;
+      justify-items: center;
+      grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+      gap: 30px;
+      border-top: 1px solid #cacaca;
+    }
+    
+    .text-center {
+      margin-top: 1rem;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 4fr));
+      gap: 1rem;
+    }
+    
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+
+  <section class="container m-0 p-0 position-relative">
+    <h3 class="tittles_h3"><i class="fas fa-file-alt"></i> Formatos de documentos</h3>
+    <article class="d-flex m-3 flex-column justify-content-center align-items-center">
+      <p class="etiq-parrafo etiquetas_parrafos text-center" style="z-index: 10;">
+        <i class="fas fa-info-circle"></i> <strong>Estos son los formatos cargados.</strong><br />
+        Para agregar un nuevo formato, haz clic en el botón a continuación:
+      </p>
+      <a href="#" id="btn_agregar" class="mb-2 btn btn-primary btns-solicitudes" data-bs-toggle="modal" data-bs-target="#modalAgregarFormato"><i class="fas fa-plus-circle"></i> Agrega un formato</a>
+      <div class="grid-cards mt-1 p-3">
+        {% if formatos %}
+          {% for key, value in formatos.items %}
+            <div class="card">
+              <embed class="card-img-top" src="data:application/pdf;base64,{{ value.documento }}" type="application/pdf" />
+              <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-file-pdf"></i> {{ value.nombre_documento }}</h5>
+                <p class="etiq-parrafo etiquetas_parrafos card-text">
+                  <i class="fas fa-align-left"></i> {{ value.descripcion }}
+                </p>
+                <p class="etiq-parrafo etiquetas_parrafos card-text">
+                  <i class="fas fa-code-branch"></i> Versión: {{ value.version }}
+                </p>
+                <p class="etiq-parrafo etiquetas_parrafos card-text">
+                  <i class="fas fa-calendar-alt"></i> Fecha de carga: {{ value.fecha_cargue|date:'d/m/Y' }}
+                </p>
+                <div class="botones">
+                  <a href="{% url 'correspondencia:editar_formato' value.id %}" class="btn btn-warning btns-editar"><i class="fas fa-edit"></i> Editar</a>
+                  <a href="{% url 'correspondencia:eliminar_formato' value.id %}" class="btn btn-danger btns-cancelar-cerrar" onclick="return confirm('¿Estás seguro de que deseas eliminar esto?')"><i class="fas fa-trash-alt"></i> Eliminar</a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="etiq-parrafo etiquetas_parrafos card-text text-center">
+            <i class="fas fa-exclamation-circle"></i> No se ha cargado ningún formato ni acuerdo.
+          </p>
+        {% endif %}
+      </div>
+    </article>
+  </section>
+  <div class="modal fade" id="modalAgregarFormato" tabindex="-1" aria-labelledby="modalAgregarFormatoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalAgregarFormatoLabel">Agrega una acta, documento o formato</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="p-2 form_agregardoc" action="{% url 'correspondencia:formatos_documentos' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="p-2">
+              <label for="nombre_documento"><strong>Nombre del Documento</strong></label>
+              <p>Introduce el nombre del documento que estás subiendo.</p>
+              {{ form_cargar_docs.nombre_documento }}
+            </div>
+            <div class="p-2">
+              <label for="descripcion"><strong>Describe el documento:</strong></label>
+              <p>Proporciona una breve descripción del contenido del documento.</p>
+              {{ form_cargar_docs.descripcion }}
+            </div>
+            <div class="p-2">
+              <label for="version"><strong>Versión</strong></label>
+              <p>Especifica la versión del documento, si aplica.</p>
+              {{ form_cargar_docs.version }}
+            </div>
+            <div class="p-2">
+              <label for="documento_convert"><strong>Documento Convertido</strong></label>
+              <p>Sube el documento convertido en el formato requerido.</p>
+              {{ form_cargar_docs.documento_convert }}
+            </div>
+            <div class="d-flex justify-content-center">
+              <button type="submit" class="btn m-2 btn-primary btns-solicitudes">Enviar</button>
+              <button id="btn_cerrar_formdocs" type="button" class="btn m-2 btn-danger btns-cancelar-cerrar" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script></script>
+{% endblock %}

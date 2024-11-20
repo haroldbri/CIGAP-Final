@@ -1,0 +1,83 @@
+@media (max-width: 576px) {
+    #contenedor {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        overflow-y: scroll;
+        height: 80vh !important;
+        width: 100vh !important;
+    }
+
+    #campoForm {
+        overflow: scroll;
+    }
+
+    #contenedor * {
+
+        font-size: 12px !important;
+    }
+
+
+    #contenedor h1, h2, h3, h4, h5, h6 {
+        margin: 8px 4px;
+        font-size: 16px !important;
+
+    }
+
+    #contentINF1 {
+        display: flex;
+        justify-content: flex-end !important;
+        align-items: end;
+    }
+
+    #contentINF1 div {
+        padding: 0 !important;
+    }
+
+    .container {
+        text-align: center !important;
+
+        justify-content: center !important;
+
+
+    }
+
+    .container * {
+        font-size: 12px !important;
+    }
+
+    .container h1,
+    .container h2,
+    .container h3,
+    .container h4,
+    .container h5,
+    .container h6 {
+        margin: 8px 4px !important;
+        font-size: 16px !important;
+    }
+
+    a {
+        padding: 12px 0 12px 0;
+    }
+
+    .sectionPrincipal {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+}
+
+/* linea tiempo */
+@media only screen and (max-width: 600px) {
+    .wizard__step {
+        font-size: 12px;
+    }
+
+    .wizard__step-link {}
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+    #campoForm {
+        overflow: scroll;
+    }
+}
+

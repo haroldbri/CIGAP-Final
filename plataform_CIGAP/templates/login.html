@@ -1,0 +1,344 @@
+{% extends 'base.html' %}
+
+{% block tittle %}
+  Login
+{% endblock %}
+
+{% block extra_head %}
+  <!--                                                                                                                  
+    Importacion de la carpeta static styles y manipulacion del DOM    
+                                                                                                                      -->
+  {% load static %}
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+
+  <link rel="stylesheet" href="{% static 'css/styleForm.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/stylelogin.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/alertRecuperarCuenta.css' %}" />
+{% endblock %}
+{% block content_login %}
+  <style>
+    .link_admin {
+      animation: admin 2s infinite;
+    }
+    
+    @keyframes admin {
+      0% {
+        scale: 1;
+      }
+      50% {
+        scale: 1.05;
+        transform: rotate(-10deg);
+      }
+      100% {
+        scale: 1;
+        transform: rotate(0deg);
+      }
+    }
+  </style>
+
+  <div class="d-flex justify-content-center align-items-center h-100 position-relative">
+    <div class="recuperar_cuenta d-flex justify-content-center align-items-center position-absolute" style="    padding: 0;     top: 0px;
+">
+      <div class="contenido_recuerar">
+        {% block recuperar_cuenta %}
+
+        {% endblock %}
+      </div>
+    </div>
+    <div id="contenedor" class="container content_login p-0 rounded overflow-hidden w-75 h-75 m-5">
+      <div id="contentINF" class="w-50 z-3">
+        <div id="contentINF1" class="classInfo col w-100 h-100 flex-column p-3 pb-5 justify-content-end" style="display: flex; color: aliceblue;">
+          <div class="pb-5">
+            <h1>CIGAP Ubaté</h1>
+            <p>Plataforma virtual para el control de información y gestión de anteproyectos y proyectos de grado.</p>
+          </div>
+
+          <span class="m-0 pt-5"><p class="m-0 p-0 text-end">Desarrollado para estudiantes de la facultad de ingeniería y comité de trabajos de grado de la seccional Ubaté.</p></span>
+        </div>
+
+        <div id="contentINF2" class="classInfo infoRegister col w-100 h-100 d-flex flex-column p-3 pb-5 justify-content-end" style="display: none; color: aliceblue;">
+          <div class="position-absolute" style="top: 20px;">
+            <button id="btnvolver" class="border-0 p-1 btn-volver">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+              </svg><span class="m-1">Volver</span>
+            </button>
+          </div>
+          <div class="pb-5">
+            <h1>Regístrate</h1>
+            <p>Ingresa los siguientes datos y se nuestro nuevo usuario.</p>
+          </div>
+
+          <span class="m-0 pt-5"><p class="m-0 p-0 text-end">Desarrollado para estudiantes de la facultad de ingeniería y comité de trabajos de grado de la seccional Ubaté.</p></span>
+        </div>
+      </div>
+      <div id="col_datos" class="w-50">
+        <section id="sectionLogin" class="login rounded overflow-hidden justify-content-center flex-row w-100 h-100" style="display: flex;">
+          <div class="d-flex w-100 h-100 justify-content-around align-items-center position-relative" style="background:#2a2a2a ;">
+            <a class="admin d-flex justify-content_center align-items-center" href="{% url 'admin:index' %}" style="margin: 12px;
+    top: 0;
+    font-size: 12px;
+    right: 0;
+    position: absolute;
+    flex-direction: column;
+    text-decoration: none;
+    color: green;
+"><img class="link_admin" src="{% static 'icons/usuario.png' %}" alt="imagen usuario" style="    height: 20px;
+    width: 20px;
+" />Admin</a>
+
+            <div id="camposDoLogin" class="camposLogin col justify-content-end w-100 h-100 d-flex flex-column">
+              <div class="contentLogin d-flex w-100 flex-column justify-content-center align-items-center">
+                <h1 class="pb-3 text-center">Inicia sesión</h1>
+                <form class="d-flex pb-5 flex-column w-75 mb-3" action="{% url 'login:loginapps' %}" method="post">
+                  {% csrf_token %}
+                  <p class="p-0 pb-2 m-0">Correo</p>
+                  <div class="contenedoresInput bg-white rounded-3 d-flex justify-content-center align-items-center">
+                    <input id="email" type="email" name="email" class="custom-input w-100 p-1 rounded-3 border-0" placeholder="example@app.com" required />
+                    <svg class="m-2 me-3" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16" style="color: rgb(48, 48, 48);">
+                      <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z" />
+                    </svg>
+                  </div>
+
+                  <p class="pt-3 pb-2 m-0">Contraseña</p>
+                  <div class="contenedoresInput bg-white d-flex justify-content-center align-items-center rounded-3 overflow-hidden">
+                    <input id="password" type="password" class="custom-input w-100 p-1 rounded-pill border-0" name="password" placeholder="" required />
+                    <button id="btnMostrarOcultar" class="border-0 rounded-3" type="button">
+                      <svg id="iconOn" class="m-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16" style="color: rgb(48, 48, 48);">
+                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                      </svg>
+                      <svg id="iconOff" style="display: none; color: rgb(48, 48, 48);" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-slash-fill m-2" viewBox="0 0 16 16">
+                        <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z" />
+                        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z" />
+                      </svg>
+                    </button>
+                  </div>
+                  <p class="m-0 mb-2 mt-2 text-center">¿Olvidaste tu contraseña?</p>
+                  <span class="m-0 d-flex text-center position-relative justify-content-center align-items-center">
+                    <div class="d-flex">
+                      <div class="part1"></div>
+                      <div class="part1"></div>
+                      <div class="part1"></div>
+                      <div class="part1"></div>
+                    </div>
+                    <a id="linkRecuperar" class="m-0 d-flex p-0 fst-italic text-center position-static justify-content-center align-items-center" href="{% url 'login:recuperar_cuenta' %}">Recupera tu cuenta</a>
+                    <div class="d-flex">
+                      <div class="part"></div>
+                      <div class="part"></div>
+                      <div class="part"></div>
+                      <div class="part"></div>
+                    </div>
+                  </span>
+                  <button id="submit" class="buttonIngresar mt-4 border-0 w-100 p-2 text-center fw-bold" style="border-radius: 8px !important;">Ingresar</button>
+                </form>
+              </div>
+
+              <div class="textinferiores d-flex pb-3 mt-2 justify-content-center align-items-center flex-column">
+                <p class="m-0 mt-3 text-center">¿No tiene una cuenta?</p>
+
+                <span class="m-0"><p id="btnform" class="btnform m-0 fw-bold">Cree una</p></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="sectionForm" class="sectionForm rounded overflow-hidden justify-content-center flex-row w-100 h-100">
+          <div class="d-flex w-100 h-100 justify-content-center" style="background:#2a2a2a;">
+            {% comment %}ajustes de este form para cargar los datos a la base de datos de estudiantes{% endcomment %}
+            <form id="campoForm" class="campoForm d-flex flex-column w-100" action="{% url 'login:registro' %}" method="post" style="background: linear-gradient(260deg, #090909, #193412) !important;">
+              {% csrf_token %}
+              <h4 class="text-center pt-4">Ingrese la siguiente información:</h4>
+              <div class="p-4 d-flex flex-md-row flex-column">
+                <div class="col">
+                  <div id="div_input_nombres" class="col">
+                    <label id="form-label" for="inputNombre" class="form-label d-flex justify-content-between">Nombres:</label>
+                    {{ form.nombres }}
+                  </div>
+                  <div id="div_input_apellidos" class="col">
+                    <label id="form-label2" for="inputApellido" class="form-label d-flex justify-content-between">Apellidos:</label>
+                    {{ form.apellidos }}
+                  </div>
+                  <div id="div_input_correo" class="col">
+                    <label id="form-label3" for="inputCorreo" class="form-label d-flex justify-content-between">Correo:</label>
+                    {{ form.email }}
+                  </div>
+                  <div id="div_input_password" class="col">
+                    <label id="form-label5" for="inputPassword" class="form-label d-flex justify-content-between">Contraseña:</label>
+                    {{ form.password1 }}
+                  </div>
+                  <div id="div_input_verifyPassword" class="col">
+                    <label id="form-label6" for="inputVerifyPassword" class="form-label d-flex justify-content-between">Verifique su contraseña:</label>
+                    {{ form.password2 }}
+                  </div>
+                </div>
+                <div class="mt-3 h-100 col d-flex text-center flex-column justify-content-center align-items-center">
+                  <h5>Información de contraseña</h5>
+                  <ol>
+                    <li>
+                      <b>La contraseña debe contener al menos 8 caracteres.</b>
+                    </li>
+                    <li>
+                      <b>No debe ser demasiado similar a tu información personal</b> (por ejemplo, tu nombre o correo electrónico).
+                    </li>
+                    <li>
+                      <b>No debe ser una contraseña comúnmente utilizada.</b>
+                    </li>
+                    <li>
+                      <b>No debe ser completamente numérica;</b> debe incluir una combinación de letras, números y caracteres especiales (@,etc).
+                    </li>
+                  </ol>
+                </div>
+              </div>
+              <div class="col-12 p-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="gridCheck" required />
+                  <label id="gridCheckLabel" class="form-check-label" for="gridCheck">Estoy de acuerdo con la política de tratamiento de datos personales autorizando su manejo en la plataforma de gestión.</label>
+                </div>
+              </div>
+              <button id="btnSubmitForm" type="submit" class="buttonIngresar border-0 w-100 p-2 text-center fw-bold">Registrar</button>
+            </form>
+          </div>
+        </section>
+      </div>
+      {% include 'components/toasts.html' %}
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Obtener los elementos del formulario
+        let divs_input = document.getElementById('form-label') // Nombres
+        let divs_input2 = document.getElementById('form-label2') // Apellidos
+        let divs_input3 = document.getElementById('form-label3') // Correo
+        let divs_input5 = document.getElementById('form-label5') // Password
+        let divs_input6 = document.getElementById('form-label6') // VerifyPassword
+      
+        // Inputs del formulario
+        let nombre = document.getElementById('inputNombre')
+        let apellido = document.getElementById('inputApellido')
+        let correo = document.getElementById('inputCorreo')
+        let newPassword = document.getElementById('id_password1')
+        let verifyPassword = document.getElementById('id_password2')
+        let check = document.getElementById('gridCheck')
+        let btnSubmitForm = document.getElementById('btnSubmitForm') // Botón exportado para el cambio a submit
+      
+        // Validación del nombre
+        let valido_invalido = document.createElement('p')
+        nombre.oninput = function (event) {
+          const nombreValido = /^[^\s][a-zA-Z\s]+$/
+          if (nombre.value.length < 1) {
+            valido_invalido.classList.add('config-verfi')
+            divs_input.appendChild(valido_invalido)
+            valido_invalido.textContent = 'Ingresa tu nombre ❌'
+            valido_invalido.style.color = 'var(--notverif)'
+          } else if (!nombreValido.test(nombre.value)) {
+            valido_invalido.classList.add('config-verfi')
+            divs_input.appendChild(valido_invalido)
+            valido_invalido.textContent = 'El nombre no debe contener números ni espacios al inicio ❌'
+            valido_invalido.style.color = 'var(--notverif)'
+          } else {
+            valido_invalido.classList.add('config-verfi')
+            divs_input.appendChild(valido_invalido)
+            valido_invalido.textContent = 'Nombre válido ✅'
+            valido_invalido.style.color = 'var(--verfif)'
+          }
+        }
+      
+        // Validación del apellido
+        let valido_invalido2 = document.createElement('p')
+        apellido.oninput = function (event) {
+          const apellidoValido = /^[^\s][a-zA-Z\s]+$/
+          if (apellido.value.length < 1) {
+            valido_invalido2.classList.add('config-verfi')
+            divs_input2.appendChild(valido_invalido2)
+            valido_invalido2.textContent = 'Ingresa tu apellido ❌'
+            valido_invalido2.style.color = 'var(--notverif)'
+          } else if (!apellidoValido.test(apellido.value)) {
+            valido_invalido2.classList.add('config-verfi')
+            divs_input2.appendChild(valido_invalido2)
+            valido_invalido2.textContent = 'El apellido no debe contener números ni espacios al inicio ❌'
+            valido_invalido2.style.color = 'var(--notverif)'
+          } else {
+            valido_invalido2.classList.add('config-verfi')
+            divs_input2.appendChild(valido_invalido2)
+            valido_invalido2.textContent = 'Apellido válido ✅'
+            valido_invalido2.style.color = 'var(--verfif)'
+          }
+        }
+      
+        let valido_invalido3 = document.createElement('p')
+        correo.oninput = function (event) {
+          let numArroba = (correo.value.match(/@/g) || []).length
+      
+          if (correo.value.length < 3) {
+            valido_invalido3.classList.add('config-verfi')
+            divs_input3.appendChild(valido_invalido3)
+            valido_invalido3.textContent = 'Verifica tu correo ⚠️'
+            valido_invalido3.style.color = 'var(--warning)'
+          } else {
+            if (numArroba > 0) {
+              valido_invalido3.classList.add('config-verfi')
+              divs_input3.appendChild(valido_invalido3)
+              valido_invalido3.textContent = 'Correo válido ✅'
+              valido_invalido3.style.color = 'var(--verfif)'
+            } else {
+              valido_invalido3.classList.add('config-verfi')
+              divs_input3.appendChild(valido_invalido3)
+              valido_invalido3.textContent = 'Ingresa un correo válido ⚠️'
+              valido_invalido3.style.color = 'var(--warning)'
+            }
+          }
+      
+          if (correo.value === '') {
+            valido_invalido3.classList.add('config-verfi')
+            divs_input3.appendChild(valido_invalido3)
+            valido_invalido3.textContent = 'Ingresa un correo ❌'
+            valido_invalido3.style.color = 'var(--notverif)'
+          }
+        }
+      
+        // Validación de la contraseña
+        let valido_invalido5 = document.createElement('p')
+        newPassword.oninput = function (event) {
+          if (newPassword.value.length < 8) {
+            valido_invalido5.classList.add('config-verfi')
+            divs_input5.appendChild(valido_invalido5)
+            valido_invalido5.textContent = 'Tu contraseña debe tener más de 8 caracteres ⚠️'
+            valido_invalido5.style.color = 'var(--warning)'
+          } else {
+            valido_invalido5.classList.add('config-verfi')
+            divs_input5.appendChild(valido_invalido5)
+            valido_invalido5.textContent = 'Contraseña válida ✅'
+            valido_invalido5.style.color = 'var(--verfif)'
+          }
+        }
+      
+        // Validación de la confirmación de contraseña
+        let valido_invalido6 = document.createElement('p')
+        verifyPassword.oninput = function (event) {
+          if (verifyPassword.value !== newPassword.value) {
+            valido_invalido6.classList.add('config-verfi')
+            divs_input6.appendChild(valido_invalido6)
+            valido_invalido6.textContent = 'Las contraseñas no coinciden ⚠️'
+            valido_invalido6.style.color = 'var(--warning)'
+          } else {
+            valido_invalido6.classList.add('config-verfi')
+            divs_input6.appendChild(valido_invalido6)
+            valido_invalido6.textContent = 'Coinciden ✅'
+            valido_invalido6.style.color = 'var(--verfif)'
+          }
+        }
+      })
+    </script>
+
+    <link rel="stylesheet" href="{% static 'css/toast.css' %}" />
+
+    <!-- importante especificar que este scrip de base de datos como modulo -->
+
+    <script type="module" src="{% static 'js/Animaciones.js' %}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  </div>
+{% endblock %}

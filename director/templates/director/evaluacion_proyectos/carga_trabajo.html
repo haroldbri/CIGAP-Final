@@ -1,0 +1,277 @@
+{% extends 'director/base_director.html' %}
+{% block carga_trabajo %}
+  <style>
+    .principal_director {
+      display: none;
+    }
+    .content_eva_proyectos {
+      display: none;
+    }
+    .card {
+      transition: transform 0.4s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .stat-icon {
+      margin: 8px;
+      background: #96c7a0;
+      width: 65px;
+      height: 65px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card:hover .stat-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+    .card-body {
+      min-height: 280px;
+    }
+    .progress {
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .progress-bar {
+      transition: width 1s ease;
+    }
+    
+    .btn {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .number-stat {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+
+  <section class="container-fluid p-0 m-0" style="border: 1px solid #cacaca; border-radius: 12px; overflow: hidden;">
+    <h3 class="tittles_h3">
+      <i class="fas fa-chart-line me-2"></i>
+      Carga de Proyectos
+    </h3>
+    <p class="etiquetas_parrafos">Resumen general del estado y conteo de informaciones de poryectos.</p>
+
+    <main class="p-3">
+      <section class="row g-4 mb-4">
+        <article class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-body d-flex flex-column align-items-center">
+              <div class="stat-icon">
+                <i class="fas fa-hourglass-start fa-2x text-white"></i>
+              </div>
+              <div class="ms-3">
+                <p class="etiquetas_parrafos">
+                  <i class="fas fa-file-signature me-1"></i>Evaluaciones de Anteproyecto
+                </p>
+                <div class="d-flex flex-column">
+                  <div class="d-flex m-1">
+                    <small><i class="fas fa-hourglass-half me-1"></i>Anteproyectos en espera de evaluación</small>
+                    <span class="number-stat">{{ evaluaciones_anteproyecto_pendientes }}</span>
+                  </div>
+                  <div class="d-flex m-1">
+                    <small><i class="fas fa-check-circle me-1"></i>Anteproyectos evaluados</small>
+                    <span class="number-stat">{{ evaluaciones_anteproyecto_hechas }}</span>
+                  </div>
+                  <div class="d-flex m-1">
+                    <small><i class="fas fa-tasks me-1"></i>Evaluaciones de Anteproyectos Asignadas</small>
+                    <span class="number-stat">{{ num_evaluaciones_anteproyecto }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <a href="{% url 'director:view_evaluador_anteproyectos' %}" class="btn btn-success btns-solicitudes"><i class="fas fa-file-signature me-2"></i>Evaluar Anteproyectos</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-body d-flex flex-column align-items-center">
+              <div class="stat-icon">
+                <i class="fas fa-tasks fa-2x text-white"></i>
+              </div>
+              <div class="ms-3">
+                <p class="etiquetas_parrafos">
+                  <i class="fas fa-clipboard-list me-1"></i>Evaluaciones de Proyecto Final
+                </p>
+                <div class="d-flex flex-column">
+                  <div class="d-flex m-1">
+                    <small><i class="fas fa-hourglass-end me-1"></i>Proyectos Finales en espera de evaluación</small>
+                    <span class="number-stat">{{ evaluaciones_proyecto_final_pendientes }}</span>
+                  </div>
+                  <div class="d-flex m-1">
+                    <small><i class="fas fa-check-circle me-1"></i>Proyectos evaluados</small>
+                    <span class="number-stat">{{ evaluaciones_proyecto_final_hechas }}</span>
+                  </div>
+                  <div class="d-flex m-1">
+                    <small><i class="fas fa-tasks me-1"></i>Número de Evaluaciones de Proyectos asignados</small>
+                    <span class="number-stat">{{ num_evaluaciones_proyecto }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <a href="{% url 'director:view_jurado' %}" class="btn btn-success btns-solicitudes"><i class="fas fa-clipboard-check me-2"></i>Evaluar Proyectos Finales</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-body d-flex flex-column align-items-center">
+              <div class="stat-icon">
+                <i class="fas fa-file-alt fa-2x text-white"></i>
+              </div>
+              <div class="ms-3">
+                <p class="etiquetas_parrafos">
+                  <i class="fas fa-tasks me-1"></i>Anteproyectos a cargo
+                </p>
+                <div class="d-flex flex-column">
+                  <div class="d-flex m-1">
+                    <small><i class="fas fa-check-circle me-1"></i>Anteproyectos aprobados</small>
+                    <span class="number-stat">{{ num_anteproyectos_aprobados }}</span>
+                  </div>
+                  <div class="d-flex m-1">
+                    <small><i class="fas fa-spinner me-1"></i>Anteproyectos pendientes</small>
+                    <span class="number-stat">{{ num_anteproyectos_pendientes }}</span>
+                  </div>
+                  <div class="d-flex m-1">
+                    <small><i class="fas fa-tasks me-1"></i>Número de Anteproyectos a cargo</small>
+                    <span class="number-stat">{{ num_anteproyectos }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-body d-flex flex-column align-items-center">
+              <div class="stat-icon">
+                <i class="fas fa-clipboard-check fa-2x text-white"></i>
+              </div>
+              <div class="ms-3">
+                <p class="etiquetas_parrafos">
+                  <i class="fas fa-check-double me-1"></i>Proyectos a cargo
+                </p>
+                <div class="d-flex flex-column">
+                  <div class="d-flex m-1">
+                    <small><i class="fas fa-flag-checkered me-1"></i>Proyectos aprobados</small>
+                    <span class="number-stat">{{ num_proyectos_aprobados }}</span>
+                  </div>
+                  <div class="d-flex m-1">
+                    <small><i class="fas fa-spinner me-1"></i>Proyectos pendientes</small>
+                    <span class="number-stat">{{ num_proyectos_pendientes }}</span>
+                  </div>
+                  <div class="d-flex m-1">
+                    <small><i class="fas fa-tasks me-1"></i>Número de Proyectos a cargo</small>
+                    <span class="number-stat">{{ num_proyectos }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Detalles de Proyectos -->
+      <section class="row g-4">
+        <!-- Información de Anteproyectos -->
+        <article class="col-lg-6">
+          <div class="card">
+            <header class="card-header p-0 m-0">
+              <h3 class="tittles_h3"><i class="fas fa-file-alt me-2"></i>Información de Anteproyectos</h3>
+              <p class="etiquetas_parrafos">
+                <i class="fas fa-info-circle me-1"></i>Información general de los anteproyectos a cargo
+              </p>
+            </header>
+            <div class="card-body">
+              <div class="mb-4">
+                <div class="d-flex justify-content-between mb-2">
+                  <span><i class="fas fa-clipboard-check me-1"></i>Número de Anteproyectos Aprobados</span>
+                  <span class="badge" style="background: #24dc00;">{{ num_anteproyectos_aprobados }}/{{ num_anteproyectos }}</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: {{ porcentaje_ante_aprobados }}%;background: #24dc00;"></div>
+                </div>
+                <small class="text-muted"><i class="fas fa-check-circle me-1"></i>Anteproyectos aprobados</small>
+              </div>
+              <div class="mb-4">
+                <div class="d-flex justify-content-between mb-2">
+                  <span><i class="fas fa-spinner me-1"></i>En Curso</span>
+                  <span class="badge" style="background: #ffbc26;">{{ num_anteproyectos_pendientes }}/{{ num_anteproyectos }}</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: {{ porcentaje_ante_curso }}%;background: #ffbc26;"></div>
+                </div>
+                <small class="text-muted"><i class="fas fa-info-circle me-1"></i>Anteproyectos en estado de respuesta</small>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Información de Proyectos Finales -->
+        <article class="col-lg-6">
+          <div class="card">
+            <header class="card-header p-0 m-0">
+              <h3 class="tittles_h3"><i class="fas fa-clipboard-list me-2"></i>Información de Proyectos Finales</h3>
+              <p class="etiquetas_parrafos">
+                <i class="fas fa-info-circle me-1"></i>Resumen de proyectos en la fase final
+              </p>
+            </header>
+            <div class="card-body">
+              <div class="mb-4">
+                <div class="d-flex justify-content-between mb-2">
+                  <span><i class="fas fa-clipboard-check me-1"></i>Número de Proyectos Finales Aprobados</span>
+                  <span class="badge" style="background: #24dc00;">{{ num_proyectos_aprobados }}/{{ num_proyectos }}</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: {{ porcentaje_proyect_aprobados }}%;background: #24dc00;"></div>
+                </div>
+                <small class="text-muted"><i class="fas fa-check-circle me-1"></i>Proyectos evaluados y aprobados</small>
+              </div>
+              <div class="mb-4">
+                <div class="d-flex justify-content-between mb-2">
+                  <span><i class="fas fa-spinner me-1"></i>En Curso</span>
+                  <span class="badge" style="background: #ffbc26;">{{ num_proyectos_pendientes }}/{{ num_proyectos }}</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: {{ porcentaje_proyect_curso }}%;background: #ffbc26;"></div>
+                </div>
+                <small class="text-muted"><i class="fas fa-info-circle me-1"></i>Proyectos en estado de evaluación</small>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </section>
+{% endblock %}

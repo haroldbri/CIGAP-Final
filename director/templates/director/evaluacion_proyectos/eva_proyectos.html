@@ -1,0 +1,102 @@
+{% extends 'director/base_director.html' %}
+{% block evaluacion_proyectos %}
+  <style>
+    .principal_director {
+      display: none;
+    }
+    .content_eva_proyectos {
+      display: flex;
+      flex-direction: column;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #cacaca;
+    }
+    .navbar-dark {
+      background-color: #1a472a;
+    }
+    .card {
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .text-info {
+      min-height: 50px;
+    }
+  </style>
+
+  <main class="container p-0 m-0 mt-5 content_eva_proyectos">
+    <h3 class="tittles_h3 mb-4"><i class="fas fa-star"></i> Calificación de Proyectos</h3>
+
+    <section class="row row-cols-1 p-3 row-cols-md-2 row-cols-lg-3 g-4">
+      <article class="col">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="fas fa-project-diagram card-icon text-success" aria-hidden="true"></i>
+            <h2 class="card-title h5">Anteproyectos</h2>
+            <p class="parrafos card-text">Evalúa y proporciona retroalimentación a los anteproyectos.</p>
+            <p class="parrafos text-success text-info">
+              Anteproyectos pendientes: <span aria-label="3 anteproyectos">
+                {% if evaluaciones_anteproyecto_pendientes %}
+                  {{ evaluaciones_anteproyecto_pendientes }}
+                {% else %}
+                  0
+                {% endif %}
+              </span>
+            </p>
+            <a href="{% url 'director:view_evaluador_anteproyectos' %}" class="btn btn-primary btns-solicitudes">Revisar Anteproyectos</a>
+          </div>
+        </div>
+      </article>
+      <article class="col">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="fas fa-file-alt card-icon text-primary" aria-hidden="true"></i>
+            <h2 class="card-title h5">Proyectos Finales</h2>
+            <p class="parrafos card-text">Califica y revisa los proyectos finales de los estudiantes.</p>
+            <p class="parrafos text-primary text-info">
+              Proyectos por calificar: <span aria-label="5 proyectos">
+                {% if evaluaciones_proyecto_final_pendientes %}
+                  {{ evaluaciones_proyecto_final_pendientes }}
+                {% else %}
+                  0
+                {% endif %}
+              </span>
+            </p>
+            <a href="{% url 'director:view_jurado' %}" class="btn btn-primary btns-solicitudes">Ver Proyectos</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="col">
+        <div class="card h-100">
+          <div class="card-body text-center">
+            <i class="fas fa-chart-line card-icon" aria-hidden="true"></i>
+            <h2 class="card-title h5">Carga de trabajo</h2>
+            <p class="parrafos card-text">Visualice los anteproyectos o cantidad de proyectos que esta dirigiendo actualmente.</p>
+            <p class="parrafos text-info">Accede para mas información respecto a su carga laboral</p>
+            <a href="{% url 'director:carga' %}" class="btn btn-primary btns-solicitudes">Ver Carga</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  {% comment %}ajustes de las vistas hijas a la clase{% endcomment %}
+
+  {% block list_anteproyectos %}
+
+  {% endblock %}
+
+  {% block anteproyecto %}
+
+  {% endblock %}
+  {% block proyecto_evaluar %}
+
+  {% endblock %}
+{% endblock %}

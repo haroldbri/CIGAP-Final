@@ -1,0 +1,65 @@
+{% load static %}
+
+<style>
+  html,
+  body {
+    height: 100%;
+  }
+  
+  /* estilos de la vista principal de director */
+  
+  .cards {
+    /*distancia entre componentes dentro del Grid*/
+    grid-gap: 20px;
+    /*Alineacion de componentes del grid
+                                                                                                                                                                                                                  justify-self: center;
+                                                                                                                                                                                                                  align-self: center;
+                                                                                                                                                                                                                  */
+  }
+  
+  .cards img {
+    border-radius: 50%;
+    max-height: 250px;
+    max-width: 250px;
+    min-height: 250px;
+    min-width: 250px;
+    padding: 12px;
+  
+    /*                    esta configuracion es para recortar la imagen sin que pierda sus proporciones iniciales
+                                                                                                                                                                                                              */
+    object-fit: cover;
+  }
+  
+  .imagen-fondo {
+    opacity: 0.5;
+    z-index: 0;
+  }
+  
+  .card,
+  ul,
+  li,
+  .list-group-item {
+    background: rgba(255, 255, 255, 0.7) !important;
+    z-index: 100;
+  }
+</style>
+
+<!-- card de información del usuario -->
+<div class="card mb-5 d-flex justify-content-center align-items-center" style="width: 18rem;">
+  {% if user_img %}
+    <img src="data:image/jpeg;base64,{{ user_img }}" alt="Imagen de usuario" />
+  {% else %}
+    <img src="{% static 'icons/usuario.png' %}" alt="Imagen de usuario" />
+  {% endif %}
+
+  <div class="card-body d-flex flex-column justify-content-center align-items-center">
+    <p class="m-0 p-0">
+      <b>Bienvenido</b><br />
+    </p>
+    <h5 class="card-title">{{ usuario.nombres }}<data value=""></data></h5>
+    <p class="etiquetas_parrafos">Rol de:</p>
+    {% for grupo in grupos %}
+      <b>{{ grupo.name }}</b>
+    {% endfor %}
+  </div>
+</div>

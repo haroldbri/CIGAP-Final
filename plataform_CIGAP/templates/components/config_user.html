@@ -1,0 +1,251 @@
+{% load static %}
+<style>
+  .panel-config {
+    padding: 12px 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+    color: #fff;
+    background: var(--colores_institucionalesfondoDegradado1);
+    overflow: hidden;
+    z-index: 0;
+  }
+  
+  .panel-config img {
+    opacity: 0.6;
+    z-index: 1000;
+    width: 90px;
+  }
+  
+ 
+  
+  .contenido-form {
+    background: #fff;
+    box-shadow: inset 0px 0px 2px 0px #d0d0d0;
+    padding: 12px;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .contenido-form img {
+    object-fit: cover;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    box-shadow: -1px 9px 12px #d5d5d5;
+  }
+  
+  .campos {
+    margin: 0 20px;
+  }
+  
+  .contenido-form button {
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: none;
+  }
+  
+  .contenido-form .btn_cerrar {
+    background: #ff2626;
+    color: #fff;
+  }
+  
+  .contenido-form .btn_actualizar {
+    background: #30a315;
+    color: #fff;
+  }
+  
+  input {
+    border: none;
+    width: 100%;
+  }
+  
+  .contenedor {
+    padding: 12px 0;
+    box-shadow: inset 0px 0px 20px -12px #d6d6d6;
+    margin: 16px 0;
+    border: 1px solid #cacaca;
+  }
+  
+  .campos_top {
+    border-top: 1px solid #cacaca;
+  }
+  
+  .content_config {
+    z-index: 0;
+    background: #fff;
+    box-shadow: 0px 0px 20px 3px #000000;
+    margin: 12px;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 3px solid #205e25;
+    max-width: 1000px;
+    margin: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .contenido-form img {
+      height: 100px;
+      width: 100px;
+    }
+  
+    .d-flex {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .contenido-form button {
+      width: 100%;
+      margin: 8px 0;
+    }
+  
+    .campos {
+      margin: 0 10px;
+    }
+  
+    .contenedor {
+      padding: 8px;
+    }
+  
+    .campos_top {
+      padding: 8px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .contenido-form {
+      padding: 8px;
+    }
+  
+    .campos {
+      margin: 0 5px;
+    }
+  
+    .panel-config img {
+      width: 70px;
+    }
+  }
+</style>
+
+<div class="modal fade" id="configModal" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <!-- Cambiado a modal-lg para un modal más grande -->
+    <div class="modal-content">
+      <div class="modal-header panel-config position-relative">
+        <img src="{% static 'icons/icons_nav/logoUDEC.png' %}" alt="LogoUDEC" class="logo-config position-absolute" style="z-index: 0;" />
+        <div class="text-center w-100" style="z-index: 1;">
+          <!-- Centrar el contenido del encabezado -->
+          <h3 class="m-0 p-0">Bienvenido {{ form_config.instance.nombres }}</h3>
+          <p class="m-0 p-0">Configure sus datos</p>
+        </div>
+        <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal" aria-label="Close" style="z-index: 2; top: 10px; right: 20px;"></button>
+      </div>
+      <div class="modal-body">
+        <form class="d-flex flex-column align-items-center" action="{% url 'login:editar_usuario' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row w-100 align-items-center justify-content-center">
+            <div class="d-flex justify-content-center align-items-center flex-column">
+              {% if user_img %}
+                <img src="data:image/jpeg;base64,{{ user_img }}" alt="Imagen de usuario" class="rounded-circle mb-3 img-fluid" style="width: 150px; height: 150px; object-fit: cover;" />
+              {% else %}
+                <img src="{% static 'icons/usuario.png' %}" alt="Imagen de usuario" class="rounded-circle mb-3 img-fluid" style="width: 150px; height: 150px; object-fit: cover;" />
+              {% endif %}
+
+              <label for="imagen_file" class="form-label etiquetas_parrafos"><b><i class="fas fa-user-circle etiquetas_parrafos"></i> Agrege o cambie su imagen</b></label>
+              <div class="input-group mb-3">{{ form_config.imagen_file }}</div>
+            </div>
+          </div>
+
+          <div class="contenedor w-100 mt-3">
+            <div class="campos p-3">
+              <p class="etiquetas_parrafos text-center mb-3">
+                Ajuste sus <b>nombres</b> y el <b>correo</b>.
+              </p>
+              <div class="row">
+                <div class="col-12 col-md-4 mb-3">
+                  <label for="nombres" class="form-label etiquetas_parrafos"><b><i class="fas fa-user"></i> Nombres actuales</b></label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+                    {{ form_config.nombres }}
+                  </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                  <label for="apellidos" class="form-label etiquetas_parrafos"><b><i class="fas fa-user"></i> Apellidos actuales</b></label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+                    {{ form_config.apellidos }}
+                  </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                  <label for="email" class="form-label etiquetas_parrafos"><b><i class="fas fa-envelope"></i> Correo actual</b></label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    {{ form_config.email }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="campos campos_top p-3">
+              <p class="etiquetas_parrafos text-center mb-3">
+                Cambie su <b>contraseña</b>. Recuerde que debe tener al menos <b>8 caracteres</b> con <b>mayúsculas</b>, <b>minúsculas</b>, <b>números</b>, y <b>caracteres especiales</b>.
+              </p>
+              <div class="row">
+                <div class="col-12 col-md-4 mb-3">
+                  <label for="current_password" class="form-label etiquetas_parrafos"><b><i class="fas fa-lock"></i> Contraseña actual</b></label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    {{ form_config.current_password }}
+                  </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                  <label for="password1" class="form-label etiquetas_parrafos"><b><i class="fas fa-lock"></i> Nueva contraseña</b></label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    {{ form_config.password1 }}
+                  </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                  <label for="password2" class="form-label etiquetas_parrafos"><b><i class="fas fa-lock"></i> Confirma la nueva contraseña</b></label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    {{ form_config.password2 }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end w-100 mt-4">
+            <button class="btn btn-secondary me-2 btns-cancelar-cerrar" id="cerrar" type="button" data-bs-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
+            <button class="btn btn-primary btns-editar" type="submit"><i class="fas fa-sync-alt"></i> Actualizar datos</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  console.log('manipulacion del config funcionando')
+  
+  const config = document.getElementById('config_user')
+  const btncerrar = document.getElementById('cerrar')
+  
+  // Configura el evento para abrir el modal
+  config.addEventListener('click', (event) => {
+    event.preventDefault()
+    const modal = new bootstrap.Modal(document.getElementById('configModal'))
+    modal.show()
+  })
+  
+  // Configura el evento para cerrar el modal
+  btncerrar.addEventListener('click', () => {
+    const modalElement = document.getElementById('configModal')
+    const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement)
+    modal.hide()
+  })
+</script>

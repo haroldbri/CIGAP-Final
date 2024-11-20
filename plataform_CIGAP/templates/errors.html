@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+  Error
+{% endblock %}
+
+{% block extra_head %}
+  {% load static %}
+{% endblock %}
+
+{% block content_erros %}
+  <link rel="stylesheet" href="{% static 'css/errors.css' %}" />
+  <style>
+    html {
+      min-height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    body {
+      position: relative;
+      min-height: 100%;
+      background: linear-gradient(120deg, #00a99d, #79c000);
+      overflow: hidden;
+    }
+    
+    main {
+      position: relative;
+    }
+    
+    img {
+      position: absolute;
+    }
+    
+    .container {
+      z-index: 1000;
+      border-radius: 12px;
+      box-shadow: 0px 0px 25px -4px rgba(4, 255, 0, 0.97);
+      background: rgba(255, 255, 255, 0.8);
+    }
+    
+    .container h1,
+    h3,
+    p,
+    a,
+    input,
+    form {
+      z-index: 1000;
+    }
+    
+    .container h1 {
+      font-size: 5rem;
+      font-weight: 700;
+      color: var(--colores_institucionalestitulo1);
+    }
+    
+    .container h3 {
+      color: #ff3333;
+      font-weight: 500;
+      font-size: 2rem;
+    }
+    
+    .container input {
+      border-radius: 8px;
+      border: none;
+      padding: 4px 8px;
+      background: #206938;
+      color: #fff;
+      transition: all 0.4s;
+    }
+    
+    .container input:hover {
+      background: #298d29;
+      color: #fff;
+    }
+    
+    .container a {
+      font-weight: 600;
+      color: #50bc44;
+      transition: all 0.4s;
+    }
+    
+    .container a:hover {
+      transition: all 0.4s;
+      transform: scale(1.1);
+      font-weight: 600;
+      color: #276c1f;
+    }
+    
+    /* animaciones
+                                             */
+    
+    .cubes {
+      z-index: 0;
+      position: absolute;
+      width: 100%;
+      z-index: 0;
+      top: -100px;
+    }
+    
+    .cube {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: rgb(255, 255, 255);
+      animation: girar 7s linear infinite;
+      z-index: 0;
+      opacity: 0;
+    
+      -webkit-animation: girar 7s linear infinite;
+    }
+    
+    .cube:first-child {
+      top: 0px;
+      width: 290px;
+      height: 290px;
+      position: relative;
+      left: -100px;
+      animation-delay: 2.2s;
+    }
+    
+    .cube:nth-child(2) {
+      width: 130px;
+      height: 130px;
+      top: -80px;
+      position: relative;
+      left: -250px;
+      animation-delay: 3.2s;
+    }
+    
+    .cube:nth-child(3) {
+      width: 430px;
+      height: 430px;
+      top: -50px;
+      position: relative;
+      left: 50px;
+      animation-delay: 0s;
+    }
+    
+    @keyframes girar {
+      0% {
+        transform: rotate(360deg);
+        background: rgb(255, 255, 255);
+        left: -40%;
+      }
+    
+      100% {
+        background: rgb(255, 255, 255);
+        border-radius: 50%;
+        opacity: 0.7;
+        left: 140%;
+      }
+    }
+  </style>
+  <div class="cubes">
+    <div class="cube"></div>
+    <div class="cube"></div>
+    <div class="cube"></div>
+    <div class="cube"></div>
+  </div>
+  <style>
+    main {
+      position: relative;
+      z-index: 100;
+    }
+    
+    .fondo {
+      min-height: 200px;
+      min-width: 260px;
+      position: absolute;
+      z-index: 0;
+      opacity: 0.3;
+    }
+  </style>
+  <main class="container p-3 w-100 h-100 d-flex flex-column align-items-center justify-content-center text-center">
+    <img class="img-fluid fondo" src="{% static 'icons/logoUDEC.png' %}" alt="Logo UDEC" />
+    <h1>CIGAP</h1>
+    <h3 class="text-center">ERROR <br />{{ num_error }}</h3>
+    <p class="">{{ mensaje|safe }}</p>
+
+    <form action="{% url 'submit_error' %}" method="post" class="m-2">
+      {% csrf_token %}
+      <input type="hidden" value="{{ num_error }}" name="estado" />
+      <input type="submit" value="Informar error" />
+    </form>
+
+    <p class="m-1">Por seguridad se ha cerrado sesión.</p>
+
+    <a href="{% url 'login:loginapps' %}">Accede al Login</a>
+  </main>
+{% endblock %}

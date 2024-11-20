@@ -1,0 +1,154 @@
+{% extends 'correspondencia/base_correspondencia.html' %}
+
+{% block view_solicitudes %}
+  <style>
+    .views {
+      display: flex;
+    }
+    .content_correspondecia {
+      display: none;
+    }
+    
+    button {
+      border: 1px solid #cacaca;
+      color: #fff;
+      background: #1f5819;
+      border-radius: 4px;
+      padding: 4px 12px;
+      margin: 4px;
+    }
+    .container_table {
+      overflow: scroll;
+    }
+    .table {
+      padding: 4px;
+      border-radius: 8px;
+    }
+    
+    .dt-layout-row {
+      justify-content: space-around;
+      align-items: center;
+      display: flex;
+      margin-bottom: 12px;
+    }
+    .dt-input {
+      margin: 0 8px;
+      border: 1px solid #cacaca;
+    }
+    .dt-layout-row:nth-child(2) {
+      justify-content: space-around;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 12px;
+    }
+    
+    #tabla_resultados th,
+    #tabla_resultados td {
+      background-color: #fff;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #cacaca;
+    }
+    
+    #tabla_resultados thead th {
+      background: #00532c;
+      color: white;
+    }
+    
+    #tabla_resultados tbody tr:nth-child(even) {
+      background-color: #fff;
+    }
+  </style>
+
+  <section class="container">
+    <h3 class="tittles_h3"><i class="fas fa-list-alt me-1"></i> Lista de solicitudes respondidas</h3>
+    <p class="etiquetas_parrafos">
+      <i class="fas fa-info-circle me-1"></i> Vea a detalle las solicitudes respondidas
+    </p>
+
+    <div class="container_table p-3 m-1">
+      <div class="mb-3">
+        <input type="text" class="form-control" id="searchInput" placeholder="Buscar en la tabla..." />
+      </div>
+
+      <table class="table table-striped border" id="tabla_resultados">
+        <thead>
+          <tr>
+            <th scope="col">
+              <i class="fas fa-hashtag me-1"></i>#
+            </th>
+            <th scope="col">
+              <i class="fas fa-file-alt me-1"></i> Nombre del proyecto
+            </th>
+            <th scope="col">
+              <i class="fas fa-file-signature me-1"></i> Anteproyecto o Proyecto Final
+            </th>
+            <th scope="col">
+              <i class="fas fa-eye me-1"></i> Respuesta
+            </th>
+            <th scope="col">
+              <i class="fas fa-calendar-alt me-1"></i> Fecha de respuesta
+            </th>
+
+            <th scope="col">
+              <i class="fas fa-file-download me-1"></i> Documento con correcciones
+            </th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          {% for key, value in respuestas.items %}
+            <tr>
+              {% if value.respuesta_anteproyecto %}
+                <td>{{ forloop.counter }}</td>
+                <td>{{ value.respuesta_anteproyecto.anteproyecto.nombre_anteproyecto }}</td>
+                <td>Anteproyecto</td>
+                <td>
+                  <a class="btn btn-primary btns-solicitudes" href="{% url 'correspondencia:ver_respuesta' value.respuesta_anteproyecto.id %}"><i class="fas fa-eye me-1"></i> Ver respuesta</a>
+                </td>
+                <td>{{ value.respuesta_anteproyecto.fecha_retroalimentacion }}</td>
+
+                <td>
+                  {% if value.doc_binario %}
+                    <a class="mt-2 btn btn-outline-primary" href="data:application/pdf;base64,{{ value.doc_binario }}" download="Retroalimentacion_{{ value.respuesta_anteproyecto.anteproyecto.nombre_anteproyecto }}.pdf"><i class="fas fa-download me-1"></i>Descargar PDF</a>
+                  {% else %}
+                    No cargado.
+                  {% endif %}
+                </td>
+              {% endif %}
+              {% if value.respuesta_proyecto_final %}
+                <td>{{ forloop.counter }}</td>
+                <td>{{ value.respuesta_proyecto_final.proyecto_final.anteproyecto.nombre_anteproyecto }}</td>
+                <td>Proyecto Final</td>
+                <td>
+                  <a class="btn btn-primary btns-solicitudes" href="{% url 'correspondencia:ver_respuesta' value.respuesta_proyecto_final.id %}"><i class="fas fa-eye me-1"></i> Ver respuesta</a>
+                </td>
+                <td>{{ value.respuesta_proyecto_final.fecha_retroalimentacion }}</td>
+                <td>
+                  {% if value.doc_binario %}
+                    <a class="mt-2 btn btn-outline-primary" href="data:application/pdf;base64,{{ value.doc_binario }}" download="Retroalimentacion_{{ value.respuesta_proyecto_final.proyecto_final.anteproyecto.nombre_anteproyecto }}.pdf"><i class="fas fa-download me-1"></i> Descargar PDF</a>
+                  {% else %}
+                    No cargado.
+                  {% endif %}
+                </td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      document.getElementById('searchInput').addEventListener('keyup', function () {
+        const filter = this.value.toLowerCase()
+        const rows = document.querySelectorAll('#tabla_resultados tbody tr')
+      
+        rows.forEach((row) => {
+          const cells = Array.from(row.getElementsByTagName('td'))
+          const matches = cells.some((cell) => cell.textContent.toLowerCase().includes(filter))
+          row.style.display = matches ? '' : 'none'
+        })
+      })
+    </script>
+  </section>
+{% endblock %}

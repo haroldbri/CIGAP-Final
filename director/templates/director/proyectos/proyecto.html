@@ -1,0 +1,622 @@
+{% extends 'director/anteproyectos/anteproyectos.html' %}
+{% block anteproyecto %}
+  {% load static %}
+  <style>
+    /* Ajuste general para que el contenido no se corte */
+    .container-anteproyectos {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cont_anteproyectos {
+      display: none;
+    }
+    
+    .document {
+      margin-top: 20px;
+    }
+    
+    .embed-responsive-item {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    
+    /* Asegurando que el texto esté alineado a la izquierda */
+    .card-text .informacion {
+      text-align: left; /* Cambiado a left */
+    }
+    
+    .content_card {
+      background: #fff;
+      overflow: hidden;
+    
+      box-shadow: 0px 0px 6px 2px #86868647;
+      border-radius: 12px;
+      margin: 4px;
+      border: 1px solid #cacaca;
+      text-align: left; /* Agregado */
+    }
+    
+    .content_card .header-card {
+      color: white;
+      padding: 8px 12px;
+      background: #0e2c13;
+      text-align: left; /* Agregado */
+    }
+    
+    .content_card .header-card img {
+      margin: 0px 8px;
+      height: 28px;
+      width: 28px;
+    }
+    .content_card p {
+      margin: 4px;
+      background: #cacaca36;
+      padding: 8px;
+      border-radius: 12px;
+    }
+    .img-icons-ante {
+      margin: 0px;
+      height: 20px;
+      width: 20px;
+    }
+    .content_card .header-card h3 {
+      padding: 0px;
+      margin: 0px;
+      text-align: left; /* Agregado */
+    }
+    .content_card h5 {
+      padding: 0;
+      margin: 0px 0px 0px 8px;
+    }
+    .content_card .header_infos {
+      align-items: center;
+    }
+    
+    .botones_envios {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      border-radius: 12px;
+      padding: 4px 12px;
+      text-decoration: none;
+      background: #002d04;
+    }
+    .form_retroalimentacion {
+      position: absolute;
+      box-shadow: 0px 0px 11px 0px #636363;
+      border: 1px solid #cacaca;
+      border-radius: 12px;
+      padding: 12px;
+      background: #ffffff;
+      top: 5%;
+      right: -500px; /* Posición fuera de la pantalla inicialmente */
+      transition: all 0.5s;
+    
+      max-width: 100%; /* Ajustar ancho máximo */
+      text-align: left; /* Agregado */
+    }
+    
+    #formretro {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      text-align: left; /* Agregado */
+      z-index: 1000;
+    }
+    
+    #formretro h4 {
+      margin-bottom: 20px;
+      text-align: left; /* Agregado */
+    }
+    
+    #formretro .form-label {
+      font-weight: bold;
+      text-align: left; /* Agregado */
+    }
+    
+    #formretro textarea.form-control,
+    #formretro input[type='file'].form-control {
+      width: 100%;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      padding: 10px;
+      text-align: left; /* Agregado */
+    }
+    
+    #formretro .btn-primary {
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-weight: bold;
+      text-align: left; /* Agregado */
+    }
+    
+    #formretro .btn-outline-danger {
+      border: 1px solid #dc3545;
+      border-radius: 4px;
+      color: #dc3545;
+      font-weight: bold;
+      text-align: left; /* Agregado */
+    }
+    
+    .content_avances {
+      margin: 12px 0;
+      text-align: start;
+      border: 1px solid #cacaca;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+  </style>
+  <div class="container-anteproyectos container-fluid mt-5 position-relative d-flex">
+    <div class="shadow-sm d-flex">
+      <div class="content_card p-0 d-flex flex-column">
+        <div class="header-card d-flex w-100">
+          <img class="" src="{% static 'icons/icons_proyect/documento.png' %}" alt="imagen de documento" />
+          <h3 class="">{{ proyecto_final.anteproyecto.nombre_anteproyecto }}</h3>
+        </div>
+        <div class="d-flex flex-column p-4">
+          <div class="d-flex flex-column mb-2">
+            <div class="d-flex header_infos">
+              <img class="img-icons-ante" src="{% static 'icons/icons_proyect/buscar.png' %}" alt="imagen de documento" />
+              <h5 class="">Resumen</h5>
+            </div>
+
+            <p class="informacion">{{ proyecto_final.anteproyecto.descripcion }}</p>
+          </div>
+
+          <div class="d-flex header_infos">
+            <img class="img-icons-ante" src="{% static 'icons/icons_proyect/personas.png' %}" alt="imagen de usuarios" />
+            <h5>Integrantes</h5>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p>
+                <strong>Estudiantes</strong>
+              </p>
+              {% if proyecto_final.anteproyecto.nombre_integrante2 %}
+                <p class="informacion">{{ proyecto_final.anteproyecto.nombre_integrante1 }}</p>
+                <p class="informacion">{{ proyecto_final.anteproyecto.nombre_integrante2 }}</p>
+              {% else %}
+                <p class="informacion">{{ proyecto_final.anteproyecto.nombre_integrante1 }}</p>
+              {% endif %}
+            </div>
+            <div class="col">
+              {% if proyecto_final.anteproyecto.codirector %}
+                <p>
+                  <strong>Director y Codirector</strong>
+                </p>
+                <p class="informacion">{{ proyecto_final.anteproyecto.codirector }}</p>
+                <p class="informacion">{{ proyecto_final.anteproyecto.director }}</p>
+              {% else %}
+                <p>
+                  <strong>Director</strong>
+                </p>
+                <p class="informacion">{{ proyecto_final.anteproyecto.director }}</p>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="d-flex flex-column justify-content-center">
+            <div class="d-flex header_infos">
+              <img class="img-icons-ante" src="{% static 'icons/icons_proyect/personas.png' %}" alt="imagen de usuarios" />
+              <h5 class="">Fecha de Envío</h5>
+            </div>
+            {% if proyecto_final.fecha_envio %}
+              <p class="informacion">{{ proyecto_final.fecha_envio }}</p>
+            {% else %}
+              <p class="text-muted">No se ha registrado el envío de una solicitud al comité correspondiente para el proyecto final.</p>
+            {% endif %}
+          </div>
+          <div class="d-flex justify-content-between mt-3">
+            <div class="d-flex flex-column mb-2">
+              <a class="botones_envios btn_observaciones" data-bs-toggle="modal" data-bs-target="#retroModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                  <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                  <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                </svg>
+                <span class="m-1">Enviar observaciones</span>
+              </a>
+              <small>Envíe observaciones respecto a los documentos "carta" y "proyecto final"</small>
+            </div>
+            {% if proyecto_final.solicitud_enviada %}
+              <div class="d-flex flex-column">
+                <p class="p-2 pt-0 pb-0 m-0">
+                  Ya se envió una solicitud al <strong>comité</strong>, esté atento a las <strong>respuestas</strong>
+                </p>
+                <small class="p-2 pt-0 pb-0 m-0"><strong>Fecha de envío:</strong> {{ proyecto_final.fecha_envio }}</small>
+              </div>
+            {% else %}
+              {% if puede_enviar %}
+                <div class="d-flex flex-column">
+                  <a href="#" id="btnEnviarSolicitud" class="botones_envios">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-arrow-up" viewBox="0 0 16 16">
+                      <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4.5a.5.5 0 0 1-1 0V5.383l-7 4.2-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h5.5a.5.5 0 0 1 0 1H2a2 2 0 0 1-2-1.99zm1 7.105 4.708-2.897L1 5.383zM1 4v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1" />
+                      <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.354-5.354 1.25 1.25a.5.5 0 0 1-.708.708L13 12.207V14a.5.5 0 0 1-1 0v-1.717l-.28.305a.5.5 0 0 1-.737-.676l1.149-1.25a.5.5 0 0 1 .722-.016" />
+                    </svg>
+                    <span class="m-1">Enviar proyecto final al comité</span>
+                  </a>
+                  <small>Antes de enviar, verifique los documentos cargados por los estudiantes.</small>
+                </div>
+              {% else %}
+                <p class="etiquetas_parrafos">Recuerde revisar los avances de cada objetivo específico y aprobarlos con el fin de enviar una solicitud de proyecto final.</p>
+              {% endif %}
+            {% endif %}
+          </div>
+          <div class="d-flex flex-column" style="overflow: hidden;border:1px solid #cacaca; border-radius: 12px;">
+            <div class="d-flex header_infos">
+              <h5 class="tittles_h3"><i class="fas fa-file-alt"></i> Documentos</h5>
+            </div>
+            <div class="d-flex justify-content-around p-3 flex-wrap">
+              {% if docs_avances %}
+                <div class="card document mt-2" style="width: 18rem;">
+                  <h6>Documentos cargados de avances</h6>
+                  {% with counter=0 %}
+                    {% for key, doc in docs_avances.items %}
+                      <a href="data:application/pdf;base64,{{ doc }}" download="Avance_objetivo_{{ forloop.counter }}_{{ proyecto_final.anteproyecto.nombre_anteproyecto }}.pdf" class="btn btn-outline-primary mb-1"><i class="fas fa-file-download"></i> Avance del objetivo específico {{ forloop.counter }}</a>
+                    {% endfor %}
+                    <a class="btn btn-primary botones_envios" href="#" data-bs-toggle="modal" data-bs-target="#modalObservacionesEspecificos"><i class="fas fa-envelope"></i> <small>Envía retroalimentaciones respecto a los avances.</small></a>
+                  {% endwith %}
+                </div>
+              {% endif %}
+              <!-- Carta de Presentación -->
+              {% if doc_carta_presentacion_final %}
+                <div class="card document mt-2" style="width: 18rem;">
+                  <div class="card-body d-flex flex-column justify-content-between p-2">
+                    <h4 class="card-title"><i class="fas fa-file-alt"></i> Carta de Presentación</h4>
+                    <div class="embed-responsive embed-responsive-16by9 mb-2" style="padding: 5px;">
+                      <embed src="data:application/pdf;base64,{{ doc_carta_presentacion_final }}" type="application/pdf" class="embed-responsive-item" style="width: 100%; height: auto;" />
+                    </div>
+                    <p class="card-text">
+                      <i class="fas fa-info-circle"></i> Carta del proyecto final.
+                    </p>
+                    <a href="data:application/pdf;base64,{{ doc_carta_presentacion_final }}" download="Carta_de_Presentacion_Final{{ proyecto_final.anteproyecto.nombre_anteproyecto }}.pdf" class="btn btn-outline-primary"><i class="fas fa-download"></i> Descargar Carta</a>
+                  </div>
+                </div>
+              {% else %}
+                <p class="text-muted">
+                  <i class="fas fa-exclamation-circle"></i> No se ha encontrado la Carta de Presentación correspondiente al proyecto final.
+                </p>
+              {% endif %}
+
+              <!-- Proyecto Final -->
+              {% if doc_proyecto_final %}
+                <div class="card document mt-2" style="width: 18rem;">
+                  <div class="card-body d-flex flex-column justify-content-between p-2">
+                    <h4 class="card-title"><i class="fas fa-file-alt"></i> Proyecto final</h4>
+                    <div class="embed-responsive embed-responsive-16by9 mb-2" style="padding: 5px;">
+                      <embed src="data:application/pdf;base64,{{ doc_proyecto_final }}" type="application/pdf" class="embed-responsive-item" style="width: 100%; height: auto;" />
+                    </div>
+                    <p class="card-text">
+                      <i class="fas fa-info-circle"></i> Proyecto final completo.
+                    </p>
+                    <a href="data:application/pdf;base64,{{ doc_proyecto_final }}" download="Proyecto_Final{{ proyecto_final.anteproyecto.nombre_anteproyecto }}.pdf" class="btn btn-outline-primary"><i class="fas fa-download"></i> Descargar Proyecto</a>
+                  </div>
+                </div>
+              {% else %}
+                <p class="text-muted">
+                  <i class="fas fa-exclamation-circle"></i> No se ha encontrado el documento del Proyecto Final.
+                </p>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="d-flex flex-column content_avances">
+            <div class="d-flex header_infos">
+              <h5 class="tittles_h3" style=""><i class="fas fa-tasks"></i> Avances actuales del proyecto {{ proyecto_final.anteproyecto.nombre_anteproyecto }}</h5>
+            </div>
+
+            <div class="p-3">
+              <div class="mt-4 text-center text-md-start">
+                <h6 class="header_infos text-md-start text-center">
+                  <i class="fas fa-tasks"></i>
+                  Objetivo General
+                </h6>
+                {% if objetivo_general %}
+                  <p>{{ objetivo_general.descripcion }}</p>
+                {% else %}
+                  <p>Aún no se ha cargado el objetivo general.</p>
+                {% endif %}
+              </div>
+
+              <div class="mt-4 text-center text-md-start">
+                <div class="row header_infos mt-2 mb-2">
+                  <div class="col">
+                    <h6 class="">
+                      <i class="fas fa-bullseye"></i> <!-- Icono para "Objetivos Específicos" -->
+                      Objetivos Específicos
+                    </h6>
+                  </div>
+                  <div class="col">
+                    <small>Acorde al documento cargado para mostrar avances, apruebe las actividades realizadas en el checkbox.</small>
+                  </div>
+                </div>
+                {% if objetivos_especificos %}
+                  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    {% for objetivo in objetivos_especificos %}
+                      <div class="col">
+                        <div class="card shadow-sm h-100" style="{% if not objetivo.estado %} background: #ffe6e6 !important; {% endif %}">
+                          <div class="card-body">
+                            <div class="row d-flex">
+                              <p class="col-auto">
+                                <strong>Objetivo {{ forloop.counter }}</strong>
+                              </p>
+                              <form action="{% url 'director:actualizar_estado_objetivo_especifico' proyecto_final.id objetivo.id %}" method="post" class="col-auto d-flex justify-content-center flex-column align-items-center">
+                                {% csrf_token %}
+                                {% if objetivo.estado %}
+                                  <input type="checkbox" name="estado_objetivo_especifico" onchange="this.form.submit()" value="True" checked />
+                                  <span style="color: green; font-weight: bold;"><i class="fas fa-check-circle" style="color: green; margin-right: 5px;"></i>Terminado</span>
+                                {% else %}
+                                  <input type="checkbox" name="estado_objetivo_especifico" onchange="this.form.submit()" value="False" />
+                                  <span style="color: red; font-weight: bold;"><i class="fas fa-exclamation-circle" style="color: red; margin-right: 5px;"></i>Pendiente</span>
+                                {% endif %}
+                              </form>
+                            </div>
+                            <div class="row p-1">
+                              <small>Marque el objetivo acorde a los avances de los estudiantes</small>
+                            </div>
+
+                            <p class="card-text">{{ objetivo.descripcion }}</p>
+
+                            <!-- Actividades relacionadas al objetivo -->
+                            {% if actividades %}
+                              <h6 class="mt-2" style="text-align: start;"><i class="fas fa-check-circle"></i> Actividades</h6>
+                              <ul class="list-group">
+                                {% for actividad in actividades %}
+                                  {% if actividad.objetivos_especificos == objetivo %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <form action="{% url 'director:actualizar_estado_actividad' actividad.id proyecto_final.id %}" method="POST" class="form-inline">
+                                        {% csrf_token %}
+                                        <div class="form-check">
+                                          <div class="row align-items-center">
+                                            <div class="col-auto p-0 m-1">
+                                              {% if actividad.estado %}
+                                                <input class="form-check-input" type="checkbox" id="actividad{{ actividad.id }}" name="estado" checked onchange="this.form.submit()" />
+                                              {% else %}
+                                                <input class="form-check-input" type="checkbox" id="actividad{{ actividad.id }}" name="estado" onchange="this.form.submit()" />
+                                              {% endif %}
+                                            </div>
+                                            <div class="col m-0 p-0">
+                                              <p class="small text-muted m-0 p-1">{{ actividad.descripcion }}</p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </form>
+                                    </li>
+                                  {% endif %}
+                                {% endfor %}
+                              </ul>
+                            {% else %}
+                              <p>Aún no se han cargado actividades.</p>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="modal fade" id="modalObservacionesEspecificos" tabindex="-1" aria-labelledby="modalObservacionesLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="modalObservacionesLabel">Observaciones del Objetivo Específico</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <form id="formObservaciones" method="POST" action="{% url 'director:enviar_observacion_objetivo' proyecto_final.id objetivo.id %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                  <label for="campo1" class="form-label">Observaciones</label>
+                                  <textarea class="form-control" id="campo1" name="observaciones" rows="3" required></textarea>
+                                  <small class="form-text text-muted">Por favor, proporcione sus observaciones detalladas.</small>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="doc_retroalimentacion" class="form-label">Documento PDF</label>
+                                  <input type="file" name="doc_retroalimentacion" id="doc_retroalimentacion" class="form-control" required accept="application/pdf" />
+                                  <small class="form-text text-muted">Suba un archivo PDF con sus observaciones.</small>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Enviar Observaciones</button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  <p>Aún no se han cargado objetivos específicos.</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} <div id="formretro" class="form_retroalimentacion position-absolute mt-2 p-4">
+      <h5>Formulario de Retroalimentación</h5>
+
+      <form id="retroForm" class="d-flex flex-column needs-validation" novalidate method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="retroalimentacion" class="form-label">Retroalimentación:</label>
+          <textarea name="retroalimentacion" id="retroalimentacion" class="form-control" required></textarea>
+          <small class="form-text text-muted">Por favor, digite las observaciones aquí.</small>
+          <div class="invalid-feedback">Por favor, proporcione una retroalimentación.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="doc_retroalimentacion_convert" class="form-label">Documento con correcciones:</label>
+          <input type="file" name="doc_retroalimentacion_convert" id="doc_retroalimentacion_convert" class="form-control" required accept="application/pdf" />
+          <small class="form-text text-muted">Suba correcciones si son necesarias (Solo se aceptan archivos PDF).</small>
+          <div class="invalid-feedback">Por favor, seleccione un archivo PDF válido.</div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button type="submit" id="btnEnviarObservacion" class="btn btn-primary px-4 py-2">
+            <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true"></span>
+            Enviar
+          </button>
+          <button type="button" class="btn btn-outline-danger btn-cerrar px-4 py-2">Cancelar</button>
+        </div>
+      </form>
+    </div> {% endcomment %}
+
+    <!--                                                                                
+modal de retroalimentaciones    
+                                                                                -->
+    <div class="modal fade" id="retroModal" tabindex="-1" aria-labelledby="retroModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="retroModalLabel">Formulario de Retroalimentación sobre Entrega de Documentos Finales</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <form id="retroForm" class="d-flex flex-column needs-validation" novalidate method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+
+              <div class="mb-3">
+                <label for="retroalimentacion" class="form-label">Retroalimentación:</label>
+                <textarea name="retroalimentacion" id="retroalimentacion" class="form-control" required></textarea>
+                <small class="form-text text-muted">Por favor, digite las observaciones aquí, respecto a la entrega de documentos finales.</small>
+                <div class="invalid-feedback">Por favor, proporcione una retroalimentación.</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="doc_retroalimentacion_convert" class="form-label">Documento con correcciones:</label>
+                <input type="file" name="doc_retroalimentacion_convert" id="doc_retroalimentacion_convert" class="form-control" required accept="application/pdf" />
+                <small class="form-text text-muted">Suba correcciones si son necesarias (Solo se aceptan archivos PDF).</small>
+                <div class="invalid-feedback">Por favor, seleccione un archivo PDF válido.</div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" id="btnEnviarObservacion" class="btn btn-primary px-4 py-2 botones_envios">
+                  <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true"></span>
+                  Enviar
+                </button>
+                <button type="button" class="btn btn-outline-danger btn-cerrar btns-cancelar-cerrar" data-bs-dismiss="modal">Cancelar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include 'components/toasts.html' %}
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Inicializar toasts
+      var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+      var toastList = toastElList.map(function (toastEl) {
+        return new bootstrap.Toast(toastEl)
+      })
+      toastList.forEach((toast) => toast.show()) // Mostrar toasts si existen
+    
+      const btnCerrarObservaciones = document.querySelector('.btn-cerrar')
+      const btnObservaciones = document.querySelector('.btn_observaciones')
+      const formRetroalimentacion = document.querySelector('.form_retroalimentacion')
+      const form = document.querySelector('.needs-validation')
+      const fileInput = document.getElementById('doc_retroalimentacion_convert')
+      const submitButton = document.getElementById('btnEnviarObservacion')
+      let estado = false
+    
+      // Mostrar u ocultar el formulario
+      if (btnObservaciones) {
+        btnObservaciones.addEventListener('click', () => {
+          estado = !estado
+          formRetroalimentacion.style.right = estado ? '25%' : '-500px'
+        })
+      }
+    
+      // Validar y enviar el formulario
+      form.addEventListener('submit', function (event) {
+        event.preventDefault() // Prevenir el envío predeterminado
+    
+        // Verificar si el formulario es válido
+        if (!form.checkValidity()) {
+          event.stopPropagation()
+          form.classList.add('was-validated') // Mostrar errores de validación
+          Swal.fire({
+            icon: 'error',
+            title: 'Formulario incompleto',
+            text: 'Por favor, complete todos los campos requeridos antes de enviar.'
+          })
+          return
+        }
+    
+        // Verificar si el archivo es un PDF
+        if (fileInput.files.length > 0 && fileInput.files[0].type !== 'application/pdf') {
+          Swal.fire({
+            icon: 'error',
+            title: 'Archivo no válido',
+            text: 'Por favor, seleccione solo archivos PDF.'
+          })
+          return
+        }
+    
+        Swal.fire({
+          title: '¿Está seguro de que desea enviar?',
+          text: 'Una vez enviado, no podrá cambiar la retroalimentación.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sí, enviar',
+          cancelButtonText: 'No, cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Mostrar animación de carga
+            Swal.fire({
+              title: 'Enviando...',
+              allowOutsideClick: false,
+              didOpen: () => {
+                Swal.showLoading() // Mostrar el spinner de carga
+              }
+            })
+    
+            // Agregar un delay de 3000 ms antes de enviar el formulario
+            setTimeout(() => {
+              form.submit() // Enviar el formulario después de 3 segundos
+            }, 3000)
+          }
+        })
+      })
+    
+      // Botón de cancelar: resetear el formulario
+      btnCerrarObservaciones.addEventListener('click', () => {
+        form.reset() // Limpiar el formulario
+        form.classList.remove('was-validated') // Quitar la validación anterior
+        formRetroalimentacion.style.right = '-500px' // Ocultar el formulario
+      })
+    })
+    
+    // Botón para confirmación de envío al comité
+    document.getElementById('btnEnviarSolicitud').addEventListener('click', function (event) {
+      event.preventDefault()
+      Swal.fire({
+        title: '¿Está seguro?',
+        text: '¡No podrá revertir esto!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, enviar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "{% url 'director:enviar_proyecto' proyecto_final.id %}"
+        }
+      })
+    })
+  </script>
+{% endblock %}

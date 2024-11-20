@@ -1,0 +1,136 @@
+{% extends 'correspondencia/base_correspondencia.html' %}
+{% load static %}
+{% block asignacion_jurados %}
+  <style>
+    .content_correspondecia {
+      display: none;
+    }
+    .views {
+      display: flex;
+    }
+    .info_anteproyecto {
+      display: grid;
+      grid-gap: 12px;
+    }
+    
+    .img-users {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .content_jurados {
+      overflow: hidden;
+    }
+    #form_jurados {
+      border-top: 1px solid #cacaca;
+      overflow-y: scroll;
+      display: flex;
+      transition: all 0.3s;
+      flex-direction: column;
+      height: 0;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .inf_integrantes {
+      border-radius: 8px;
+      border: 1px solid #cacaca;
+    }
+    .inf_integrantes img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  </style>
+  <section class="content_jurados container">
+    <div class="d-flex flex-column justify-content-center align-content-center">
+      <p class="text-center">
+        <strong>Recuerda asignar los jurados</strong> correspondientes <strong>y la fecha de sustentación</strong> si el proyecto fue aprobado.
+      </p>
+      <div class="d-flex w-100">
+        <button class="btn btn-primary m-2 mb-3 w-75" id="btn_asignar_jurados">Asignar Jurados</button>
+        <a class="btn btn-primary m-2 mb-3 w-25" href="{% url 'correspondencia:principal_correspondencia' %}">continuar</a>
+      </div>
+      <form id="form_jurados" method="post" style="">
+        {% csrf_token %}
+        <div class="d-flex container-flex flex-column">
+          <div class="col mt-3 d-flex flex-column justify-content-center align-items-center">
+            <h5>Estos son los actuales profesores disponibles como jurados:</h5>
+            <p>Selecciona los jurados según creas que son convenientes según el proyecto de grado.</p>
+          </div>
+          <div class="inf_integrantes mt-3 d-flex flex-column flex-md-row">
+            <div class="d-flex col p-3 flex-column justify-content-center">
+              <h5 class="d-flex justify-content-center align-items-center" style="border-bottom:1px solid #cacaca ; padding: 12px 4px; min-height: 30px;">Directores actuales</h5>
+              {% for director in directores %}
+                <div class="d-flex flex-row justify-content-start align-items-center mb-3">
+                  <label for="{{ director.nombre_completo }}" class="font-weight-bold"><strong>{{ director.nombre_completo }}</strong></label>
+                  <input type="checkbox" name="directores" id="{{ director.nombre_completo }}" value="{{ director.nombre_completo }}" class="ml-2" />
+                </div>
+              {% endfor %}
+            </div>
+            <div class="d-flex col p-3 flex-column text-start">
+              <h5 class="d-flex justify-content-center align-items-center" style="border-bottom:1px solid #cacaca ; padding: 12px 4px; min-height: 30px;">Asignación para proyecto <strong>{{ proyecto.nombre_anteproyecto }}</strong></h5>
+              <div class="d-flex align-items-center mb-3">
+                {% if img_director %}
+                  <img src="data:image/jpeg;base64,{{ img_director }}" alt="Imagen del Director" class="img-thumbnail mr-3" style="width: 100px; height: auto;" />
+                {% else %}
+                  <img src="{% static 'icons/usuario.png' %}" alt="Imagen del Director" class="img-thumbnail mr-3" style="width: 100px; height: auto;" />
+                {% endif %}
+                <div class="m-1">
+                  <p class="mb-0">
+                    <strong>Director:</strong>
+                  </p>
+                  <p>{{ proyecto.director }}</p>
+                </div>
+              </div>
+              {% if proyecto.codirector %}
+                <div class="d-flex align-items-center mb-3">
+                  {% if img_codirector %}
+                    <img src="data:image/jpeg;base64,{{ img_codirector }}" alt="Imagen del Codirector" class="img-thumbnail mr-3" style="width: 100px; height: auto;" />
+                  {% else %}
+                    <img src="{% static 'icons/usuario.png' %}" alt="Imagen del Codirector" class="img-thumbnail mr-3" style="width: 100px; height: auto;" />
+                  {% endif %}
+                  <div class="m-1">
+                    <p class="mb-0">
+                      <strong>Codirector:</strong>
+                    </p>
+                    <p>{{ proyecto.codirector }}</p>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <input class="" type="date" name="fecha_sustentacion" />
+        <input class="btn btn-primary" type="submit" value="Enviar" />
+      </form>
+    </div>
+  </section>
+  <script>
+    const form_jurados = document.getElementById('form_jurados')
+    const btn_asignar_jurados = document.getElementById('btn_asignar_jurados')
+    let estado = true
+    console.log(form_jurados)
+    console.log(btn_asignar_jurados)
+    btn_asignar_jurados.onclick = () => {
+      console.log('esta funcionando')
+      if (estado == true) {
+        btn_asignar_jurados.style.background = 'red'
+        btn_asignar_jurados.innerText = 'Cancelar'
+        form_jurados.style.transition = 'all 0.5s'
+        form_jurados.style.height = '450px'
+      } else {
+        btn_asignar_jurados.style.background = 'green'
+        btn_asignar_jurados.innerText = 'Asignar Jurados'
+        form_jurados.style.transition = 'all 0.5s'
+        form_jurados.style.height = '0px'
+      }
+      estado = !estado
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'correspondencia/base_correspondencia.html' %}
+{% load static %}
+{% block view_retroalimentacion %}
+  <style>
+    .content_correspondecia {
+      display: none;
+    }
+    .views {
+      display: flex;
+    }
+    
+    .img-users {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    
+    .nombre {
+      word-wrap: break-word;
+      font-size: 14px;
+    }
+    .seccion_documento {
+      border-top: 1px solid #cacaca;
+    }
+  </style>
+
+  <main class="d-flex flex-column w-100 p-0 m-0">
+    <h3 class="tittles_h3"><i class="fas fa-info-circle me-1"></i> Información de la respuesta</h3>
+    <article class="d-flex m-2 p-3 container-fluid flex-column flex flex-md-row">
+      <div class="col">
+        <h4 class="m-2">
+          <i class="fas fa-file-alt me-1"></i>
+          {% if respuesta.anteproyecto %}
+            {{ respuesta.anteproyecto.nombre_anteproyecto }}
+          {% else %}
+            {% if respuesta.proyecto_final %}
+              {{ respuesta.proyecto_final.anteproyecto.nombre_anteproyecto }}
+            {% else %}
+              Error.
+            {% endif %}
+          {% endif %}
+        </h4>
+        <p class="etiquetas_parrafos">
+          <i class="fas fa-clipboard-list me-1"></i>
+          Solicitud de{% if respuesta.anteproyecto %}
+            Anteproyecto
+          {% else %}
+            {% if respuesta.proyecto_final %}
+              Proyecto Final
+            {% else %}
+              Error.
+            {% endif %}
+          {% endif %}
+        </p>
+        <h5 class="m-2"><i class="fas fa-tasks me-1"></i> Revisiones:</h5>
+        <p class="etiquetas_parrafos">
+          <i class="fas fa-comment-dots me-1"></i> {{ respuesta.retroalimentacion }}
+        </p>
+      </div>
+      <div class="">
+        <p class="etiquetas_parrafos">
+          <i class="fas fa-users me-1"></i> <strong>Integrantes</strong>
+        </p>
+        <div class="row d-flex justify-content-center align-items-center">
+          {% for key, integrante in datos_integrantes.items %}
+            <div class="col d-flex flex-column justify-content-center align-items-center m-2">
+              {% if integrante.imagen %}
+                <img class="img-users" src="data:image/jpeg;base64,{{ integrante.imagen }}" alt="Imagen de usuario" />
+              {% else %}
+                <img class="img-users" src="{% static 'icons/usuario.png' %}" alt="Imagen de usuario" />
+              {% endif %}
+              <p class="etiquetas_parrafos nombre m-1">
+                {{ integrante.nombre }}<br />
+                <strong>{{ integrante.grupo }}</strong>
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+        <p class="etiquetas_parrafos">
+          <i class="fas fa-calendar-alt me-1"></i> <strong>Fecha de radicación:</strong> {{ respuesta.fecha_retroalimentacion }}
+        </p>
+      </div>
+    </article>
+    <h3 class="mt-2 tittles_h3"><i class="fas fa-file-pdf me-1"></i> Documento de Retroalimentación</h3>
+    <section class="seccion_documento m-2 p-3 d-flex justify-content-center flex-column">
+      <embed src="data:application/pdf;base64,{{ documento_respuesta }}" style="height: 600px;" />
+    </section>
+  </main>
+{% endblock %}

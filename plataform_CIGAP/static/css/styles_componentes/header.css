@@ -1,0 +1,112 @@
+.nav_sup {
+    background: var(--colores_institucionalesfondoDegradado1);
+    width: 100%;
+    height: 80px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav_sup * {
+    z-index: 100 !important;
+}
+
+.buscador_ {
+    color: #575757;
+}
+
+.navMenu * {
+    z-index: 1000;
+}
+
+.navMenu h2 {
+    font-weight: 400;
+    background: #fff;
+    color: var(--colores_institucionalestitulo1);
+}
+
+/* icono de la barra de navegacion */
+img {
+    width: 50px;
+}
+
+.buscador {
+    width: 30%;
+    border-radius: 18px;
+    background: #ffffff;
+
+}
+
+.buscador input {
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+    background: #e8e8e8;
+    border: none;
+}
+
+
+
+
+.cubes {
+
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+
+}
+
+.cube {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: rgb(255, 255, 255);
+    animation: girar 7s linear infinite;
+    z-index: 0;
+    opacity: 0;
+
+    -webkit-animation: girar 7s linear infinite;
+}
+
+.cube:first-child {
+    top: 50px;
+    width: 130px;
+    height: 130px;
+    position: relative;
+    left: -100px;
+    animation-delay: 2.2s;
+}
+
+.cube:nth-child(2) {
+    top: -80px;
+    position: relative;
+    left: -250px;
+    animation-delay: 3.2s;
+
+}
+
+.cube:nth-child(3) {
+    top: -50px;
+    position: relative;
+    left: 50px;
+    animation-delay: 0s;
+
+}
+
+@keyframes girar {
+    0% {
+        transform: rotate(360deg);
+        background: rgb(255, 255, 255);
+        left: 0%;
+
+    }
+
+    100% {
+        background: rgb(138, 255, 185);
+        border-radius: 50%;
+        opacity: 0.7;
+        left: 100%;
+
+    }
+
+}

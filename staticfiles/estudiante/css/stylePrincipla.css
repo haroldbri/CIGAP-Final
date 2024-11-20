@@ -1,0 +1,277 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+html, body {
+    min-width: 100%;
+}
+
+body {
+
+    font-family: "Manrope", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+
+
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7 */
+
+
+/* configuracion del la nav */
+.navMenu {
+    margin: 0;
+    display: flex;
+
+    box-shadow: 1px 3px 6px -2px #28482a;
+
+
+}
+
+
+
+
+
+/* configuracion de previsualizacion del protyecto */
+.info_proyect {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+
+}
+
+.document {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    /* overflow: hidden; */
+
+}
+
+.content_ {
+    margin: 30px 0 0 0;
+    display: flex;
+    justify-content: space-around;
+    /* height: 100%; */
+    /* box-shadow: inset 0px -50px 20px -40px rgb(111, 255, 98); */
+}
+
+.document_see {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 18px;
+
+
+}
+
+.document_see iframe {
+    width: 70%;
+    height: 70vh;
+    z-index: 100;
+
+    /* mask-image: linear-gradient(black 10%, transparent); */
+    /* opacity: 0.5;
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%); */
+}
+
+
+.link_document {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    text-decoration: none;
+    /* border-radius: 12px; */
+    width: 100%;
+    height: 26px;
+    background-color: rgb(45, 151, 42);
+    z-index: 101;
+
+}
+
+
+
+.information {
+    width: 50%;
+}
+
+/* .btn_info_desplegable {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    text-align: center;
+    border: none;
+    border-radius: 50%;
+    background: #40b335;
+    position: relative;
+    bottom: 10%;
+
+}
+
+.btn_info_desplegable svg {
+    color: #ffffff;
+
+} */
+
+/* informacion de los intgegrantes */
+.informacion_integrantes {
+    padding: 12px;
+    color: #fff;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background: #2b2b2b;
+    z-index: 1;
+}
+
+.footerNav {
+    bottom: 0;
+    z-index: 100;
+    /* position: fixed;f */
+    display: flex;
+    color: #40b335;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #2b2b2b;
+}
+
+
+
+
+/* edicion de componentes de registro de la vista */
+.entradas {
+    display: flex;
+    align-items: center;
+    margin: 12px 0 0;
+}
+
+.entradas label {
+    padding: 12px;
+}
+
+.entradas input, select {
+    border-radius: 8px;
+    width: 50%;
+    margin: 0 12px 0 12px;
+    height: 30px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+
+
+.previsualizacion_de_correo iframe {
+    height: 80vh;
+}
+
+a {
+    text-decoration: none;
+
+}
+
+
+
+button {
+    border: none;
+    color: #fff;
+    background: var(--colores_institucionalesfondo1);
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+}
+
+h5 {
+    padding: 12px 0 0 0;
+    margin: 12px 0 12px 0;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+}
+
+
+.modulos {
+    background: var(--colores_institucionalesfondo1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+.modulo {
+
+    margin: 12px 0;
+
+    z-index: 100;
+    transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+}
+
+.modulo a {
+    color: #fff;
+}
+
+.modulo:hover {
+
+    font-weight: 500;
+    border-radius: 12px;
+    color: var(--bg-arrow-color);
+    background: var(--colores_institucionalesfondo4);
+
+}
+
+.fondo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    position: absolute;
+    width: 50%;
+    height: auto;
+    opacity: 0.1;
+    z-index: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
+section * {
+    z-index: 100;
+}
+
+/* Estilos para el scrollbar de WebKit */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: var(--colores_institucionalesfondo4);
+}
+
+input {
+    border: 1px solid var(--colores_institucionalesTextoNegrilla);
+    outline: none;
+
+}

@@ -1,0 +1,48 @@
+{% extends 'correspondencia/base_correspondencia.html' %}
+
+{% block view_documentos_cargados %}
+  <style>
+    .views{
+      display: flex;
+    }
+  
+    .content_correspondecia {
+      display: none;
+    }
+  </style>
+
+  <section class="container">
+    <h3 class="mt-3">Documentos cargados</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre del proyecto</th>
+          <th scope="col">Carta de presentación</th>
+          <th scope="col">Anteproyecto</th>
+          <th scope="col">Proyecto de grado</th>
+          <th scope="col">Estado del proyecto</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        {% for key, value in respuestas.items %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ value.respuesta.anteproyecto.nombre_anteproyecto }}</td>
+            <td>{{ value.respuesta.retroalimentacion }}</td>
+            <td>{{ value.respuesta.fecha_retroalimentacion }}</td>
+            <td>{{ value.respuesta.estado }}</td>
+            <td>{{ value.respuesta.revs_dadas }}</td>
+            <td>
+              <a class="mt-2" href="data:application/octet-stream;base64,{{ value.doc_binario }}" download="CartaPresentacion{{ value.respuesta.anteproyecto.nombre_anteproyecto }}.pdf">Retroalimentación del comité</a>
+            </td>
+            <td>
+              {% comment %}tener en cuenta el envío de parámetros de búsqueda{% endcomment %}
+              {% comment %} <a href="{% url 'correspondencia:ver_anteproyecto' value.respuesta.anteproyecto.nombre_anteproyecto %}" type="button" class="m-2 btn btn-primary">Responder solicitud</a> {% endcomment %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% endblock %}

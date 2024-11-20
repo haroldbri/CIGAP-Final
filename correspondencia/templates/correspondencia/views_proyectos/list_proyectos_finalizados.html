@@ -1,0 +1,150 @@
+{% extends 'correspondencia/base_correspondencia.html' %}
+{% load static %}
+{% block proyectos_finalizados %}
+  <style>
+    .content_correspondecia {
+      display: none;
+    }
+    .views {
+      display: flex;
+    }
+    
+    .container_table {
+      overflow: scroll;
+    }
+    .table {
+      padding: 4px;
+      border-radius: 8px;
+    }
+    /*estilos de la tabla del plugin*/
+    .dt-layout-row {
+      justify-content: space-around;
+      align-items: center;
+      display: flex;
+      margin-bottom: 12px;
+    }
+    .dt-input {
+      margin: 0 8px;
+      border: 1px solid #cacaca;
+    }
+    .dt-layout-row:nth-child(2) {
+      justify-content: space-around;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 12px;
+    }
+    
+    button {
+      border: 1px solid #cacaca;
+      color: #fff;
+      background: #1f5819;
+      border-radius: 4px;
+      padding: 4px 12px;
+      margin: 4px;
+    }
+    /*estilos personalizados para la tabla*/
+    
+    #tabla_resultados th,
+    #tabla_resultados td {
+      background-color: #fff;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #cacaca;
+    }
+    
+    #tabla_resultados thead th {
+      background: #00532c;
+      color: white;
+    }
+    
+    /* Estilo para las filas alternas */
+    #tabla_resultados tbody tr:nth-child(even) {
+      background-color: #f9f9f9; /* Color de fondo para filas alternas */
+    }
+  </style>
+
+  <section class="container p-0 m-0" style="overflow: scroll;">
+    <h3 class="tittles_h3"><i class="fas fa-tasks"></i> Lista de proyectos finalizados</h3>
+    <div class="container_table m-2 p-2" style="border-top: 1px solid #cacaca;">
+      <input class="form-control mb-3" id="searchInput" type="text" placeholder="Buscar " />
+
+      <table class="table table-striped border" id="tabla_resultados">
+        <thead>
+          <tr>
+            <th scope="col">
+              <i class="fas fa-hashtag"></i>
+            </th>
+            <th scope="col">
+              <i class="fas fa-project-diagram"></i> Nombre del proyecto
+            </th>
+            <th scope="col">
+              <i class="fas fa-user-tie"></i> Director y Codirector
+            </th>
+            <th scope="col">
+              <i class="fas fa-calendar-check"></i> Fecha de Inicio
+            </th>
+            <th scope="col">
+              <i class="fas fa-calendar-check"></i> Fecha de aprobación
+            </th>
+            <th scope="col">
+              <i class="fas fa-file-download"></i> Mas Información
+            </th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          {% for key, value in proyectos.items %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ value.proyecto.anteproyecto.nombre_anteproyecto }}</td>
+              <td>
+                {{ value.proyecto.anteproyecto.director }} <br />
+                {{ value.proyecto.anteproyecto.codirector }}
+              </td>
+              <td>{{ value.proyecto.fechas_proyecto.fecha_inicio }}</td>
+              <td>{{ value.proyecto.fechas_proyecto.fecha_finalizacion }}</td>
+
+              <td>
+                <a class="btn btn-success btns-solicitudes" href="{% url 'correspondencia:proyecto_final' value.proyecto.id %}"><i class="fas fa-info-circle"></i> Más info</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script>
+    $(document).ready(function () {
+      // Filtro de búsqueda
+      $('#searchInput').on('keyup', function () {
+        var value = $(this).val().toLowerCase()
+        $('#tabla_resultados tbody tr').filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        })
+      })
+    
+      $('#tabla_resultados').DataTable({
+        aLengthMenu: [
+          [3, 5, 10, 25, -1],
+          [3, 5, 10, 25, 'ALL']
+        ],
+        iDisplayLength: 7,
+        language: {
+          lengthMenu: 'Mostrar _MENU_ registros por página',
+          search: 'Buscar',
+          zeroRecords: 'Ningún Registro Encontrado',
+          info: 'Página _PAGE_ de _PAGES_',
+          infoEmpty: 'Ningún Registro Disponible',
+          infoFiltered: '(Filtrado de _MAX_ registro(s) totales)',
+          paginate: {
+            first: 'Primero',
+            last: 'Último',
+            next: 'Siguiente',
+            previous: 'Anterior'
+          }
+        }
+      })
+    })
+  </script>
+{% endblock %}

@@ -1,0 +1,82 @@
+<style>
+  /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7 */
+  /* estilos de la barra de navegacion de los modulos */
+  .barra_nav {
+    
+  }
+  .titulo_modulos {
+    color: var(--colores_institucionalestitulo1);
+    font-weight: 450;
+  }
+  
+  /* configuracion del la nav */
+  .navMenu {
+    margin: 0;
+    display: flex;
+    box-shadow: 1px 3px 6px -2px #28482a;
+  }
+  
+  .modulo {
+    padding: 4px;
+    margin: 8px;
+  
+    transition: all 0.2s;
+    text-decoration: none;
+    color: #fff;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modulo:hover {
+    border-radius: 8px;
+    font-weight: 400;
+    background: var(--colores_institucionalesfondo4);
+    color: #fff;
+    font-size: 18px;
+  }
+  
+  /*estilos de la nav de modulos*/
+  .modulos,
+  .collapse {
+    color: #fff !important;
+    background: var(--colores_institucionalesfondo1) !important;
+  }
+  
+  ul {
+    background: none !important;
+  }
+  .navbar h5 {
+    border-right: 2px solid white;
+    padding: 8px 20px;
+    margin: 0;
+    text-align: center;
+    font-weight: 300;
+  }
+  /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7 */
+</style>
+
+<div class="position-relative barra_nav">
+  <h1 class="titulo_modulos text-center m-2 mt-2 m-b2">Modulos</h1>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light nav navMenu modulos position-relative">
+    <div class="container-fluid p-1 d-flex justify-content-center align-content-center">
+      <h5>Servicios</h5>
+      <button class="navbar-toggler m-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <svg style="color:white;" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+        </svg>
+      </button>
+      <div class="collapse container-fluid navbar-collapse" id="navbarSupportedContent">
+        <div class="d-flex w-100 flex-column flex-md-row justify-content-around align-items-center">
+          <a class="modulo w-100" href="{%url 'director:principal_director' %}">Director</a>
+          <a class="modulo w-100" href="{%url 'director:view_anteproyectos' %}">Anteproyectos</a>
+          <a class="modulo w-100" href="{%url 'director:view_proyectos' %}">Proyectos Finales</a>
+          <a class="modulo w-100" href="{%url 'director:evaluacion_proyectos' %}">Evaluación de proyectos</a>
+          <a class="modulo w-100" href="{%url 'director:formatos_documentos' %}">Formatos</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <nav class="position-relative d-flex justify-content-around align-items-center text-center"></nav>
+</div>
